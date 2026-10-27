@@ -701,6 +701,409 @@
       "minTier": 1,
       "learnedLoggedIn": false,
       "learnedAt": "2026-10-27T12:00:00.000Z"
+    },
+    {
+      "name": "mostActiveSecurities",
+      "description": "Top 20 most-active NSE equities by trading volume or by total traded value today. Returns symbol, LTP, % change, quantity, traded value, 52-week range.",
+      "request": {
+        "method": "GET",
+        "url": "https://www.nseindia.in/api/live-analysis-most-active-securities?index=volume",
+        "headers": {
+          "accept": "application/json, text/plain, */*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [
+        {
+          "param": "type",
+          "at": [
+            "query:index"
+          ]
+        }
+      ],
+      "volatile": [],
+      "trigger": {
+        "url": "https://www.nseindia.in/api/live-analysis-most-active-securities?index={type}"
+      },
+      "match": {
+        "method": "GET",
+        "host": "www.nseindia.in",
+        "path": "/api/live-analysis-most-active-securities"
+      },
+      "response": {
+        "format": "json",
+        "contentType": "application/json; charset=utf-8",
+        "extract": "data",
+        "shape": {
+          "data": "array",
+          "data[]": "object",
+          "data[].symbol": "string",
+          "data[].lastPrice": "number",
+          "data[].pChange": "number",
+          "data[].quantityTraded": "number",
+          "data[].totalTradedVolume": "number",
+          "data[].totalTradedValue": "number",
+          "data[].previousClose": "number",
+          "data[].yearHigh": "number",
+          "data[].yearLow": "number",
+          "data[].change": "number",
+          "data[].open": "number",
+          "data[].dayHigh": "number",
+          "data[].dayLow": "number",
+          "timestamp": "string"
+        }
+      },
+      "params": [
+        {
+          "name": "type",
+          "type": "string",
+          "required": true,
+          "description": "Sort criterion: \"volume\" (quantity traded) or \"value\" (total traded value in rupees).",
+          "example": "volume"
+        }
+      ],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-27T12:00:00.000Z"
+    },
+    {
+      "name": "priceBandHitters",
+      "description": "Stocks hitting their upper or lower price circuit band today (5%, 10%, 20% bands). Returns separate lists for stocks locked at upper circuit (buy-side) and lower circuit (sell-side).",
+      "request": {
+        "method": "GET",
+        "url": "https://www.nseindia.in/api/live-analysis-price-band-hitter",
+        "headers": {
+          "accept": "application/json, text/plain, */*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [],
+      "volatile": [],
+      "trigger": {
+        "url": "https://www.nseindia.in/api/live-analysis-price-band-hitter"
+      },
+      "match": {
+        "method": "GET",
+        "host": "www.nseindia.in",
+        "path": "/api/live-analysis-price-band-hitter"
+      },
+      "response": {
+        "format": "json",
+        "contentType": "application/json; charset=utf-8",
+        "shape": {
+          "upper": "object",
+          "upper.AllSec": "object",
+          "upper.AllSec.data": "array",
+          "upper.AllSec.data[]": "object",
+          "upper.AllSec.data[].symbol": "string",
+          "upper.AllSec.data[].ltp": "string",
+          "upper.AllSec.data[].pChange": "string",
+          "upper.AllSec.data[].priceBand": "string",
+          "upper.AllSec.data[].yearHigh": "number",
+          "upper.AllSec.data[].yearLow": "number",
+          "upper.AllSec.data[].turnover": "number",
+          "lower": "object",
+          "lower.AllSec": "object",
+          "lower.AllSec.data": "array",
+          "count": "object",
+          "both": "object"
+        }
+      },
+      "params": [],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-27T12:00:00.000Z"
+    },
+    {
+      "name": "fiidiiTrade",
+      "description": "Previous trading day's net buy/sell activity by FII/FPI and DII. Returns buy value, sell value, and net value (in crores) for each category.",
+      "request": {
+        "method": "GET",
+        "url": "https://www.nseindia.in/api/fiidiiTradeReact",
+        "headers": {
+          "accept": "application/json, text/plain, */*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [],
+      "volatile": [],
+      "trigger": {
+        "url": "https://www.nseindia.in/api/fiidiiTradeReact"
+      },
+      "match": {
+        "method": "GET",
+        "host": "www.nseindia.in",
+        "path": "/api/fiidiiTradeReact"
+      },
+      "response": {
+        "format": "json",
+        "contentType": "application/json; charset=utf-8",
+        "shape": {
+          "[]": "object",
+          "[].buyValue": "string",
+          "[].category": "string",
+          "[].date": "string",
+          "[].netValue": "string",
+          "[].sellValue": "string"
+        }
+      },
+      "params": [],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-27T12:00:00.000Z"
+    },
+    {
+      "name": "etf",
+      "description": "Live prices and NAV for all NSE-listed ETFs: open, high, low, LTP, % change, traded quantity, traded value, 52-week range, and 30-day / 365-day performance.",
+      "request": {
+        "method": "GET",
+        "url": "https://www.nseindia.in/api/etf",
+        "headers": {
+          "accept": "application/json, text/plain, */*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [],
+      "volatile": [],
+      "trigger": {
+        "url": "https://www.nseindia.in/api/etf"
+      },
+      "match": {
+        "method": "GET",
+        "host": "www.nseindia.in",
+        "path": "/api/etf"
+      },
+      "response": {
+        "format": "json",
+        "contentType": "application/json; charset=utf-8",
+        "extract": "data",
+        "shape": {
+          "data": "array",
+          "data[]": "object",
+          "data[].symbol": "string",
+          "data[].assets": "string",
+          "data[].open": "string",
+          "data[].high": "string",
+          "data[].low": "string",
+          "data[].ltP": "string",
+          "data[].chn": "string",
+          "data[].per": "string",
+          "data[].nav": "string",
+          "data[].qty": "string",
+          "data[].trdVal": "string",
+          "data[].wkhi": "string",
+          "data[].wklo": "string",
+          "data[].prevClose": "string",
+          "data[].perChange365d": "number",
+          "data[].perChange30d": "number",
+          "timestamp": "string",
+          "advances": "number",
+          "declines": "number",
+          "unchanged": "number"
+        }
+      },
+      "params": [],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-27T12:00:00.000Z"
+    },
+    {
+      "name": "circulars",
+      "description": "Recent NSE exchange circulars and notices. Each item includes the category, department, display number, subject, and a direct PDF link.",
+      "request": {
+        "method": "GET",
+        "url": "https://www.nseindia.in/api/circulars",
+        "headers": {
+          "accept": "application/json, text/plain, */*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [],
+      "volatile": [],
+      "trigger": {
+        "url": "https://www.nseindia.in/api/circulars"
+      },
+      "match": {
+        "method": "GET",
+        "host": "www.nseindia.in",
+        "path": "/api/circulars"
+      },
+      "response": {
+        "format": "json",
+        "contentType": "application/json; charset=utf-8",
+        "extract": "data",
+        "shape": {
+          "data": "array",
+          "data[]": "object",
+          "data[].cirDate": "string",
+          "data[].cirDisplayDate": "string",
+          "data[].circCategory": "string",
+          "data[].circCompany": "string",
+          "data[].circDepartment": "string",
+          "data[].circDisplayNo": "string",
+          "data[].circFileSize": "string",
+          "data[].circFilelink": "string",
+          "data[].sub": "string",
+          "fromDate": "string",
+          "toDate": "string"
+        }
+      },
+      "params": [],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-27T12:00:00.000Z"
+    },
+    {
+      "name": "topCorpInfo",
+      "description": "Company snapshot for any NSE-listed equity: latest announcements, upcoming corporate actions (dividends, splits, bonus), recent financial results (income/expenditure/EPS), and upcoming board meetings.",
+      "request": {
+        "method": "GET",
+        "url": "https://www.nseindia.in/api/top-corp-info?symbol=RELIANCE&market=equities",
+        "headers": {
+          "accept": "application/json, text/plain, */*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [
+        {
+          "param": "symbol",
+          "at": [
+            "query:symbol"
+          ]
+        }
+      ],
+      "volatile": [],
+      "trigger": {
+        "url": "https://www.nseindia.in/api/top-corp-info?symbol={symbol}&market=equities"
+      },
+      "match": {
+        "method": "GET",
+        "host": "www.nseindia.in",
+        "path": "/api/top-corp-info"
+      },
+      "response": {
+        "format": "json",
+        "contentType": "application/json; charset=utf-8",
+        "shape": {
+          "latest_announcements": "object",
+          "latest_announcements.data": "array",
+          "latest_announcements.data[]": "object",
+          "latest_announcements.data[].symbol": "string",
+          "latest_announcements.data[].broadcastdate": "string",
+          "latest_announcements.data[].subject": "string",
+          "corporate_actions": "object",
+          "corporate_actions.data": "array",
+          "corporate_actions.data[]": "object",
+          "corporate_actions.data[].symbol": "string",
+          "corporate_actions.data[].exdate": "string",
+          "corporate_actions.data[].purpose": "string",
+          "shareholdings_patterns": "object",
+          "financial_results": "object",
+          "financial_results.data": "array",
+          "financial_results.data[]": "object",
+          "financial_results.data[].from_date": "string",
+          "financial_results.data[].to_date": "string",
+          "financial_results.data[].income": "string",
+          "financial_results.data[].expenditure": "string",
+          "financial_results.data[].reDilEPS": "string",
+          "borad_meeting": "object",
+          "borad_meeting.data": "array",
+          "borad_meeting.data[]": "object",
+          "borad_meeting.data[].symbol": "string",
+          "borad_meeting.data[].purpose": "string",
+          "borad_meeting.data[].meetingdate": "string"
+        }
+      },
+      "params": [
+        {
+          "name": "symbol",
+          "type": "string",
+          "required": true,
+          "description": "NSE ticker symbol (e.g. RELIANCE, TCS, INFY, HDFCBANK).",
+          "example": "RELIANCE"
+        }
+      ],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-27T12:00:00.000Z"
+    },
+    {
+      "name": "preOpenMarket",
+      "description": "Pre-open session data showing indicative equilibrium prices, buy/sell orders, and final IEP for each stock. Use key=ALL for all equities, FO for futures-eligible stocks, SME for SME-segment stocks.",
+      "request": {
+        "method": "GET",
+        "url": "https://www.nseindia.in/api/market-data-pre-open?key=ALL",
+        "headers": {
+          "accept": "application/json, text/plain, */*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [
+        {
+          "param": "key",
+          "at": [
+            "query:key"
+          ]
+        }
+      ],
+      "volatile": [],
+      "trigger": {
+        "url": "https://www.nseindia.in/api/market-data-pre-open?key={key}"
+      },
+      "match": {
+        "method": "GET",
+        "host": "www.nseindia.in",
+        "path": "/api/market-data-pre-open"
+      },
+      "response": {
+        "format": "json",
+        "contentType": "application/json; charset=utf-8",
+        "extract": "data",
+        "shape": {
+          "data": "array",
+          "data[]": "object",
+          "data[].metadata": "object",
+          "data[].metadata.symbol": "string",
+          "data[].metadata.lastPrice": "number",
+          "data[].metadata.change": "number",
+          "data[].metadata.pChange": "number",
+          "data[].metadata.previousClose": "number",
+          "data[].metadata.finalQuantity": "number",
+          "data[].metadata.totalTurnover": "number",
+          "data[].metadata.yearHigh": "number",
+          "data[].metadata.yearLow": "number",
+          "data[].metadata.iep": "number",
+          "declines": "number",
+          "unchanged": "number",
+          "advances": "number"
+        }
+      },
+      "params": [
+        {
+          "name": "key",
+          "type": "string",
+          "required": true,
+          "description": "Market segment: \"ALL\" (all equities, ~2000 stocks), \"FO\" (futures-eligible ~200 stocks), \"SME\" (SME segment ~40 stocks).",
+          "example": "ALL"
+        }
+      ],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-27T12:00:00.000Z"
     }
   ]
 }

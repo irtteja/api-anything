@@ -137,19 +137,127 @@ api-anything call nseindia-in equityMaster
 
 ---
 
+### `mostActiveSecurities(type)`
+
+Top 20 most-active NSE equities today, sorted by volume or by traded value.
+
+```bash
+# Most traded by quantity
+api-anything call nseindia-in mostActiveSecurities type=volume
+
+# Most traded by rupee value
+api-anything call nseindia-in mostActiveSecurities type=value
+```
+
+**Response fields per stock:** `symbol`, `lastPrice`, `pChange`, `quantityTraded`, `totalTradedVolume`, `totalTradedValue`, `previousClose`, `yearHigh`, `yearLow`, `change`, `open`, `dayHigh`, `dayLow`, `lastUpdateTime`.
+
+---
+
+### `priceBandHitters()`
+
+Stocks hitting their upper or lower price circuit band today (5%, 10%, 20% bands). Returns separate sections for upper-circuit (locked up) and lower-circuit (locked down) stocks across all NSE securities.
+
+```bash
+api-anything call nseindia-in priceBandHitters
+```
+
+**Response fields:** `upper.AllSec.data[]` and `lower.AllSec.data[]` — each item: `symbol`, `series`, `ltp`, `pChange`, `priceBand`, `highPrice`, `lowPrice`, `yearHigh`, `yearLow`, `turnover`. Also `count.TOTAL/UPPER/LOWER/BOTH`.
+
+---
+
+### `fiidiiTrade()`
+
+Previous trading day's net buy/sell activity by FII/FPI and DII.
+
+```bash
+api-anything call nseindia-in fiidiiTrade
+```
+
+**Response:** array of 2 objects — one for `DII`, one for `FII/FPI`. Fields: `category`, `date`, `buyValue`, `sellValue`, `netValue` (all in crores).
+
+---
+
+### `etf()`
+
+Live prices and NAV for all NSE-listed ETFs.
+
+```bash
+api-anything call nseindia-in etf
+```
+
+**Response fields per ETF:** `symbol`, `assets` (underlying), `open`, `high`, `low`, `ltP` (LTP), `chn` (change), `per` (% change), `nav`, `qty`, `trdVal`, `wkhi`, `wklo`, `prevClose`, `perChange30d`, `perChange365d`, `timestamp`, `advances`, `declines`, `unchanged`.
+
+---
+
+### `circulars()`
+
+Recent NSE exchange circulars and notices, with direct PDF/ZIP links.
+
+```bash
+api-anything call nseindia-in circulars
+```
+
+**Response fields per circular:** `cirDate`, `cirDisplayDate`, `circCategory`, `circCompany`, `circDepartment`, `circDisplayNo`, `circFileSize`, `circFilelink` (PDF/ZIP URL), `sub` (subject), `fromDate`, `toDate`.
+
+---
+
+### `topCorpInfo(symbol)`
+
+Company snapshot: latest announcements, upcoming corporate actions (dividends, splits, bonus), recent financial results, and upcoming board meetings.
+
+```bash
+api-anything call nseindia-in topCorpInfo symbol=RELIANCE
+api-anything call nseindia-in topCorpInfo symbol=TCS
+api-anything call nseindia-in topCorpInfo symbol=INFY
+```
+
+**Response sections:**
+- `latest_announcements.data[]` — `symbol`, `broadcastdate`, `subject`
+- `corporate_actions.data[]` — `symbol`, `exdate`, `purpose`
+- `financial_results.data[]` — `from_date`, `to_date`, `income`, `expenditure`, `reDilEPS`
+- `borad_meeting.data[]` — `symbol`, `purpose`, `meetingdate`
+
+---
+
+### `preOpenMarket(key)`
+
+Pre-open session data: indicative equilibrium prices (IEP) and order details for each stock. Shows IEP, IEQ, final quantity, and total turnover. Available during and after the pre-open session.
+
+```bash
+# All ~2000 equities
+api-anything call nseindia-in preOpenMarket key=ALL
+
+# ~200 futures-eligible stocks
+api-anything call nseindia-in preOpenMarket key=FO
+
+# ~40 SME-segment stocks
+api-anything call nseindia-in preOpenMarket key=SME
+```
+
+**Response fields per stock:** `metadata.symbol`, `metadata.lastPrice`, `metadata.change`, `metadata.pChange`, `metadata.previousClose`, `metadata.finalQuantity`, `metadata.totalTurnover`, `metadata.yearHigh`, `metadata.yearLow`, `metadata.iep`. Top-level: `advances`, `declines`, `unchanged`.
+
+---
+
 ## What's accessible without a session
 
 | Data | Accessible |
 |---|---|
 | All indices (130+) with PE/PB/A-D | ✅ |
 | Corporate announcements + PDF links | ✅ |
-| Live stock quote (LTP, OHLC, pChange) | ✅ via GetQuoteApi |
+| Live stock quote (LTP, OHLC, pChange) | ✅ via getquoteapi |
 | Market status (all segments) | ✅ |
 | Market turnover by segment | ✅ |
 | Today's NIFTY gainers | ✅ |
 | OI spurts / PCR / falling OI | ✅ |
 | Trading and clearing holidays | ✅ |
 | Index master / all index names | ✅ |
+| Most active stocks by volume / value | ✅ |
+| Price circuit band hitters (upper/lower) | ✅ |
+| FII/DII daily net buy/sell data | ✅ |
+| All ETFs with live price + NAV | ✅ |
+| NSE circulars + PDF links | ✅ |
+| Company snapshot (announcements, results, board meetings) | ✅ |
+| Pre-open IEP / order book | ✅ |
 | Option chain data | ❌ returns empty records |
 | Historical charts (intraday) | ❌ returns empty grapthData |
 | Quarterly financials / P&L | ❌ session required |
