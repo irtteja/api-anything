@@ -1941,6 +1941,202 @@
       "minTier": 1,
       "learnedLoggedIn": false,
       "learnedAt": "2026-10-27T14:00:00.000Z"
+    },
+    {
+      "name": "corporatesFinancialResults",
+      "description": "Quarterly or annual financial result filings for a listed company. Each item has filingDate, period, fromDate, toDate, consolidated, audited, financialYear, and an xbrl field with a direct link to the XBRL XML file on nsearchives.nseindia.com.",
+      "request": {
+        "method": "GET",
+        "url": "https://www.nseindia.in/api/corporates-financial-results?symbol=TCS&index=equities&period=Quarterly&from_date=01-01-2025&to_date=31-10-2026",
+        "headers": {
+          "accept": "application/json, text/plain, */*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [
+        {
+          "param": "symbol",
+          "at": [
+            "query:symbol"
+          ],
+          "template": "{symbol}"
+        },
+        {
+          "param": "index",
+          "at": [
+            "query:index"
+          ],
+          "template": "{index}"
+        },
+        {
+          "param": "period",
+          "at": [
+            "query:period"
+          ],
+          "template": "{period}"
+        },
+        {
+          "param": "from_date",
+          "at": [
+            "query:from_date"
+          ],
+          "template": "{from_date}"
+        },
+        {
+          "param": "to_date",
+          "at": [
+            "query:to_date"
+          ],
+          "template": "{to_date}"
+        }
+      ],
+      "volatile": [],
+      "trigger": {
+        "url": "https://www.nseindia.in/api/corporates-financial-results?symbol={symbol}&index={index}&period={period}&from_date={from_date}&to_date={to_date}"
+      },
+      "match": {
+        "method": "GET",
+        "host": "www.nseindia.in",
+        "path": "/api/corporates-financial-results"
+      },
+      "response": {
+        "format": "json",
+        "shape": {
+          "": "array",
+          "[].symbol": "string",
+          "[].companyName": "string",
+          "[].filingDate": "string",
+          "[].period": "string",
+          "[].fromDate": "string",
+          "[].toDate": "string",
+          "[].financialYear": "string",
+          "[].consolidated": "string",
+          "[].audited": "string",
+          "[].indAs": "string",
+          "[].xbrl": "string",
+          "[].params": "string",
+          "[].seqNumber": "string"
+        }
+      },
+      "params": [
+        {
+          "name": "symbol",
+          "type": "string",
+          "required": true,
+          "description": "NSE stock symbol",
+          "example": "TCS"
+        },
+        {
+          "name": "index",
+          "type": "string",
+          "required": false,
+          "description": "Listing segment",
+          "default": "equities",
+          "example": "equities",
+          "enum": [
+            "equities",
+            "sme",
+            "debt",
+            "reitsinvits"
+          ]
+        },
+        {
+          "name": "period",
+          "type": "string",
+          "required": false,
+          "description": "Reporting period type",
+          "default": "Quarterly",
+          "example": "Quarterly",
+          "enum": [
+            "Quarterly",
+            "Annual",
+            "Half-Yearly",
+            "Others"
+          ]
+        },
+        {
+          "name": "from_date",
+          "type": "string",
+          "required": false,
+          "description": "Start date in DD-MM-YYYY",
+          "example": "01-01-2025",
+          "pattern": "^\\d{2}-\\d{2}-\\d{4}$",
+          "hint": "DD-MM-YYYY"
+        },
+        {
+          "name": "to_date",
+          "type": "string",
+          "required": false,
+          "description": "End date in DD-MM-YYYY",
+          "example": "31-10-2026",
+          "pattern": "^\\d{2}-\\d{2}-\\d{4}$",
+          "hint": "DD-MM-YYYY"
+        }
+      ],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-27T14:00:00.000Z"
+    },
+    {
+      "name": "annualReportsXbrl",
+      "description": "Annual report XBRL filings for a listed company \u2014 last ~4 years, both standalone and consolidated. Each item has fromYr, toYr, report_type (IND-AS), submission_type, broadcast_dttm, and fileName as a direct link to the XBRL XML file on nsearchives.nseindia.com.",
+      "request": {
+        "method": "GET",
+        "url": "https://www.nseindia.in/api/annual-reports-xbrl?symbol=TCS&index=cm&issuerType=C&periodType=Annual",
+        "headers": {
+          "accept": "application/json, text/plain, */*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [
+        {
+          "param": "symbol",
+          "at": [
+            "query:symbol"
+          ],
+          "template": "{symbol}"
+        }
+      ],
+      "volatile": [],
+      "trigger": {
+        "url": "https://www.nseindia.in/api/annual-reports-xbrl?symbol={symbol}&index=cm&issuerType=C&periodType=Annual"
+      },
+      "match": {
+        "method": "GET",
+        "host": "www.nseindia.in",
+        "path": "/api/annual-reports-xbrl"
+      },
+      "response": {
+        "format": "json",
+        "extract": "data",
+        "shape": {
+          "data": "array",
+          "data[].companyName": "string",
+          "data[].fromYr": "string",
+          "data[].toYr": "string",
+          "data[].report_type": "string",
+          "data[].submission_type": "string",
+          "data[].broadcast_dttm": "string",
+          "data[].disseminationDateTime": "string",
+          "data[].fileName": "string"
+        }
+      },
+      "params": [
+        {
+          "name": "symbol",
+          "type": "string",
+          "required": true,
+          "description": "NSE stock symbol",
+          "example": "TCS"
+        }
+      ],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-27T14:00:00.000Z"
     }
   ]
 }

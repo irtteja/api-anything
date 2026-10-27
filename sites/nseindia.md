@@ -29,7 +29,6 @@ Full historical search across corporate announcements. `index` is the segment: `
 
 ```bash
 api-anything call nseindia-in announcementSearch index=equities symbol=TCS
-api-anything call nseindia-in announcementSearch index=equities from_date=01-10-2026 to_date=27-10-2026
 ```
 
 ### `getquoteapi(symbol)`
@@ -45,10 +44,7 @@ Live price snapshot for every stock in an NSE index. Works for 100+ indices. Use
 ```bash
 api-anything call nseindia-in indexConstituents index="NIFTY 50"
 api-anything call nseindia-in indexConstituents index="NIFTY IT"
-api-anything call nseindia-in indexConstituents index="NIFTY 500"
 ```
-
-**Response per stock:** `symbol`, `lastPrice`, `change`, `pChange`, `open`, `dayHigh`, `dayLow`, `totalTradedVolume`, `totalTradedValue`, `yearHigh`, `yearLow`, `perChange30d`, `perChange365d`.
 
 ### `indexSnapshot(index)`
 Compact index summary: OHLC, current level, % change, 30d/365d performance, yearHigh/Low, volume, advance/decline counts. Lighter than `indexConstituents`.
@@ -74,8 +70,6 @@ api-anything call nseindia-in stockSearch q=RELIANCE
 api-anything call nseindia-in stockSearch q=Infosys
 ```
 
-**Response:** `companyName`, `symbol`, `series`, `segment`, `lastPrice`, `change`, `pChange`, `url`, `webUrl`.
-
 ### `refRates(type)`
 NSE reference rates. `currencyspotrates` → USD/YEN/GBP/EUR vs INR. `interates` → g-sec bond yields.
 
@@ -85,7 +79,7 @@ api-anything call nseindia-in refRates type=interates
 ```
 
 ### `currencyDerivativesStats()`
-Live CD segment stats — per instrument (USDINR/EURINR/GBPINR/JPYINR futures and options): volume, notional/premium turnover, open interest, and segment totals.
+Live CD segment stats — per instrument (USDINR/EURINR/GBPINR/JPYINR): volume, OI, turnover, segment totals.
 
 ```bash
 api-anything call nseindia-in currencyDerivativesStats
@@ -124,10 +118,7 @@ Contracts with the largest change in open interest. Types: `spurtsinoi`, `fallin
 
 ```bash
 api-anything call nseindia-in oiSpurts type=spurtsinoi
-api-anything call nseindia-in oiSpurts type=pcr
 ```
-
-**Response per contract:** `symbol`, `instrument`, `optionType`, `strikePrice`, `expiryDate`, `latestOI`, `prevOI`, `changeInOI`, `pChangeInOI`, `ltp`, `pChange`, `underlyingValue`.
 
 ### `mostActiveSecurities(type)`
 Top 20 most-active NSE equities today by `volume` or `value`.
@@ -200,14 +191,14 @@ api-anything call nseindia-in indexNames
 ```
 
 ### `commodityFutures()`
-Top 20 most-active NSE commodity futures and options by volume and value. Covers CRUDEOIL, GOLD, SILVER, NATURALGAS, COPPER, etc. Per-contract: OHLC, LTP, change, pChange, OI, turnover, lot size, expiry, spot price.
+Top 20 most-active NSE commodity futures and options by volume and value. Covers CRUDEOIL, GOLD, SILVER, NATURALGAS, COPPER, etc. Per contract: OHLC, LTP, pChange, OI, turnover, lot size, expiry.
 
 ```bash
 api-anything call nseindia-in commodityFutures
 ```
 
 ### `marketTurnoverDetail()`
-Per-instrument live stats across all NSE segments — Equities, Index/Stock Futures/Options, Currency, Commodity, Interest Rate. Volume, value, OI, orders, trades, plus previous session values.
+Per-instrument live stats across all NSE segments. Volume, value, OI, orders, trades, plus previous session values.
 
 ```bash
 api-anything call nseindia-in marketTurnoverDetail
@@ -239,19 +230,37 @@ api-anything call nseindia-in monthlyReports key=CM
 
 ---
 
+### `corporatesFinancialResults(symbol, period, from_date, to_date)`
+Quarterly or annual result filings. Each item: `filingDate`, `period`, `fromDate`, `toDate`, `consolidated`, `audited`, `financialYear`, and `xbrl` (XBRL XML link on nsearchives).
+
+```bash
+api-anything call nseindia-in corporatesFinancialResults symbol=TCS period=Quarterly from_date=01-01-2025 to_date=31-10-2026
+api-anything call nseindia-in corporatesFinancialResults symbol=TCS period=Annual from_date=01-01-2020 to_date=31-10-2026
+```
+
+`index`: `equities` (default), `sme`, `debt`, `reitsinvits`. `period`: `Quarterly`, `Annual`, `Half-Yearly`.
+
+### `annualReportsXbrl(symbol)`
+Annual report XBRL — last ~4 years, standalone + consolidated. Each item: `fromYr`, `toYr`, `report_type`, `submission_type`, `fileName` (direct XML link).
+
+```bash
+api-anything call nseindia-in annualReportsXbrl symbol=TCS
+```
+
+---
+
 ## What's accessible without a session
 
 | Data | Accessible |
 |---|---|
 | All indices (130+) with PE/PB/A-D | ✅ |
 | Corporate announcements + PDF links | ✅ |
-| Live stock quote (LTP, OHLC, pChange) | ✅ |
-| Index constituents with live prices | ✅ |
-| Intraday chart ticks | ✅ |
-| Stock search by name/symbol | ✅ |
-| Currency spot rates / G-sec yields | ✅ |
-| Market status / turnover | ✅ |
-| Gainers, OI spurts, circuit hitters | ✅ |
-| FII/DII, ETFs, circulars, pre-open | ✅ |
+| Live stock quote / index constituents | ✅ |
+| Intraday ticks / stock search | ✅ |
+| Currency rates / G-sec yields | ✅ |
+| Market status / turnover / gainers | ✅ |
+| OI spurts, circuit hitters, FII/DII | ✅ |
+| ETFs, circulars, pre-open, holidays | ✅ |
 | Daily + monthly report files | ✅ |
-| Option chain / quarterly financials | ❌ session or empty |
+| Financial results + XBRL XML | ✅ |
+| Option chain / inline financials | ❌ session or empty |
