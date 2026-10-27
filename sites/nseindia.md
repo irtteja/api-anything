@@ -56,7 +56,7 @@ api-anything call nseindia-in getquoteapi symbol=INFY
 
 ### `marketStatus()`
 
-Live status of all NSE market segments — Capital Market, Currency, Commodity, Debt, and derivatives. Returns whether each segment is Open/Closed/Pre-open, the trade date, current NIFTY 50 level, and currency pair rates.
+Live status of all NSE market segments — Capital Market, Currency, Commodity, Debt, and derivatives. Returns Open/Closed/Pre-open state, trade date, NIFTY 50 level, and currency rates.
 
 ```bash
 api-anything call nseindia-in marketStatus
@@ -68,7 +68,7 @@ api-anything call nseindia-in marketStatus
 
 ### `marketTurnover()`
 
-Yesterday's and today's turnover (volume, traded value, open interest) across all NSE market segments: Equities, Index Futures/Options, Stock Futures/Options, Currency Futures/Options, Commodity Futures/Options, Interest Rate instruments.
+Yesterday's and today's turnover (volume, value, open interest) across all NSE segments: Equities, Index/Stock/Currency/Commodity Futures & Options, Interest Rate instruments.
 
 ```bash
 api-anything call nseindia-in marketTurnover
@@ -121,7 +121,7 @@ api-anything call nseindia-in holidayMaster type=trading
 api-anything call nseindia-in holidayMaster type=clearing
 ```
 
-**Response:** object keyed by market segment (CM, FO, CD, CBM, IRD, etc.), each containing an array of holiday objects with `tradingDate`, `weekDay`, `description`.
+**Response:** object keyed by segment (CM, FO, CD, CBM, IRD…), each an array of `{tradingDate, weekDay, description}`.
 
 ---
 
@@ -161,7 +161,7 @@ Stocks hitting their upper or lower price circuit band today (5%, 10%, 20% bands
 api-anything call nseindia-in priceBandHitters
 ```
 
-**Response fields:** `upper.AllSec.data[]` and `lower.AllSec.data[]` — each item: `symbol`, `series`, `ltp`, `pChange`, `priceBand`, `highPrice`, `lowPrice`, `yearHigh`, `yearLow`, `turnover`. Also `count.TOTAL/UPPER/LOWER/BOTH`.
+**Response fields per item:** `symbol`, `series`, `ltp`, `pChange`, `priceBand`, `highPrice`, `lowPrice`, `yearHigh`, `yearLow`, `turnover`. Nested under `upper.AllSec.data[]` and `lower.AllSec.data[]`. Also `count.TOTAL/UPPER/LOWER/BOTH`.
 
 ---
 
@@ -185,7 +185,7 @@ Live prices and NAV for all NSE-listed ETFs.
 api-anything call nseindia-in etf
 ```
 
-**Response fields per ETF:** `symbol`, `assets` (underlying), `open`, `high`, `low`, `ltP` (LTP), `chn` (change), `per` (% change), `nav`, `qty`, `trdVal`, `wkhi`, `wklo`, `prevClose`, `perChange30d`, `perChange365d`, `timestamp`, `advances`, `declines`, `unchanged`.
+**Response fields per ETF:** `symbol`, `assets`, `open`, `high`, `low`, `ltP`, `chn`, `per`, `nav`, `qty`, `trdVal`, `wkhi`, `wklo`, `prevClose`, `perChange30d`, `perChange365d`. Top-level: `timestamp`, `advances`, `declines`, `unchanged`.
 
 ---
 
@@ -221,7 +221,7 @@ api-anything call nseindia-in topCorpInfo symbol=INFY
 
 ### `preOpenMarket(key)`
 
-Pre-open session data: indicative equilibrium prices (IEP) and order details for each stock. Shows IEP, IEQ, final quantity, and total turnover. Available during and after the pre-open session.
+Pre-open session indicative equilibrium prices (IEP), final quantity, and total turnover per stock.
 
 ```bash
 # All ~2000 equities
@@ -234,9 +234,11 @@ api-anything call nseindia-in preOpenMarket key=FO
 api-anything call nseindia-in preOpenMarket key=SME
 ```
 
-**Response fields per stock:** `metadata.symbol`, `metadata.lastPrice`, `metadata.change`, `metadata.pChange`, `metadata.previousClose`, `metadata.finalQuantity`, `metadata.totalTurnover`, `metadata.yearHigh`, `metadata.yearLow`, `metadata.iep`. Top-level: `advances`, `declines`, `unchanged`.
+**Response fields per stock:** `metadata.symbol`, `metadata.lastPrice`, `metadata.pChange`, `metadata.previousClose`, `metadata.finalQuantity`, `metadata.yearHigh`, `metadata.yearLow`, `metadata.iep`. Top-level: `advances`, `declines`, `unchanged`.
 
 ---
+
+## Maintainer notes
 
 ## What's accessible without a session
 
