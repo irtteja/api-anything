@@ -1794,6 +1794,153 @@
       "minTier": 1,
       "learnedLoggedIn": false,
       "learnedAt": "2026-10-27T14:00:00.000Z"
+    },
+    {
+      "name": "dailyReports",
+      "description": "Daily report files for an NSE market segment \u2014 three sections: CurrentDay (today's files published so far), PreviousDay (previous session's complete set), FutureDay (scheduled for the next session). Each item has a displayName, tradingDate, fileSize, and a download URL composed from filePath + fileActlName. Key CM = equities, INDEX = indices (daily snapshot + top-10 holdings CSVs), FO = F&O SPAN / bhavcopy, CD = currency, COM = commodity, WDM = wholesale debt, others as labelled.",
+      "request": {
+        "method": "GET",
+        "url": "https://www.nseindia.in/api/daily-reports?key=CM",
+        "headers": {
+          "accept": "application/json, text/plain, */*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [
+        {
+          "param": "key",
+          "at": [
+            "query:key"
+          ],
+          "template": "{key}"
+        }
+      ],
+      "volatile": [],
+      "trigger": {
+        "url": "https://www.nseindia.in/api/daily-reports?key={key}"
+      },
+      "match": {
+        "method": "GET",
+        "host": "www.nseindia.in",
+        "path": "/api/daily-reports"
+      },
+      "response": {
+        "format": "json",
+        "shape": {
+          "CurrentDay": "array",
+          "PreviousDay": "array",
+          "FutureDay": "array",
+          "currentDate": "string",
+          "previousDate": "string",
+          "CurrentDay[].displayName": "string",
+          "CurrentDay[].fileActlName": "string",
+          "CurrentDay[].filePath": "string",
+          "CurrentDay[].tradingDate": "string",
+          "CurrentDay[].fileSize": "string",
+          "CurrentDay[].fileSegment": "string",
+          "PreviousDay[].displayName": "string",
+          "PreviousDay[].fileActlName": "string",
+          "PreviousDay[].filePath": "string",
+          "PreviousDay[].tradingDate": "string",
+          "PreviousDay[].fileSize": "string"
+        }
+      },
+      "params": [
+        {
+          "name": "key",
+          "type": "string",
+          "required": true,
+          "description": "Market segment: CM=equities, INDEX=indices, FO=F&O equity, COM=commodity derivatives, CD=currency derivatives, WDM=wholesale debt, CBM=corporate bonds, SLBS=stock lending, SME=SME, NBF=interest rate futures, TRI-PARTY=tri-party repo, EGR=electronic gold receipts",
+          "example": "CM",
+          "enum": [
+            "CM",
+            "INDEX",
+            "SLBS",
+            "SME",
+            "FO",
+            "COM",
+            "CD",
+            "NBF",
+            "WDM",
+            "CBM",
+            "TRI-PARTY",
+            "EGR"
+          ]
+        }
+      ],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-27T14:00:00.000Z"
+    },
+    {
+      "name": "monthlyReports",
+      "description": "Monthly statistical reports for an NSE market segment \u2014 typically published once a month (end-of-month PDF or Excel). Each item has displayName, tradingDate (publication date), fileSize, and a download URL composed from filePath + fileActlName.",
+      "request": {
+        "method": "GET",
+        "url": "https://www.nseindia.in/api/monthly-reports?key=CM",
+        "headers": {
+          "accept": "application/json, text/plain, */*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [
+        {
+          "param": "key",
+          "at": [
+            "query:key"
+          ],
+          "template": "{key}"
+        }
+      ],
+      "volatile": [],
+      "trigger": {
+        "url": "https://www.nseindia.in/api/monthly-reports?key={key}"
+      },
+      "match": {
+        "method": "GET",
+        "host": "www.nseindia.in",
+        "path": "/api/monthly-reports"
+      },
+      "response": {
+        "format": "json",
+        "shape": {
+          "": "array",
+          "[].displayName": "string",
+          "[].fileActlName": "string",
+          "[].filePath": "string",
+          "[].tradingDate": "string",
+          "[].fileSize": "string",
+          "[].fileSegment": "string"
+        }
+      },
+      "params": [
+        {
+          "name": "key",
+          "type": "string",
+          "required": true,
+          "description": "Market segment: CM=equities, INDICES=indices, FO=F&O equity, COM=commodity, CD=currency, IRD=interest rate, WDM=wholesale debt, CBM=corporate bonds, SLBS=stock lending, EGR=electronic gold receipts",
+          "example": "CM",
+          "enum": [
+            "CM",
+            "INDICES",
+            "SLBS",
+            "FO",
+            "CD",
+            "COM",
+            "IRD",
+            "WDM",
+            "CBM",
+            "EGR"
+          ]
+        }
+      ],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-27T14:00:00.000Z"
     }
   ]
 }

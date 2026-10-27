@@ -222,32 +222,36 @@ api-anything call nseindia-in nsEvents
 
 ---
 
+### `dailyReports(key)`
+Daily report files per segment. Returns `{CurrentDay,PreviousDay,FutureDay}`; each item: `displayName`, `tradingDate`, `fileSize`, download = `filePath+fileActlName`. Keys: `CM` equities, `INDEX` indices, `FO` F&O, `COM` commodity, `CD` currency, `WDM` debt, plus `SLBS`, `SME`, `NBF`, `TRI-PARTY`, `EGR`.
+
+```bash
+api-anything call nseindia-in dailyReports key=INDEX
+api-anything call nseindia-in dailyReports key=CM
+```
+
+### `monthlyReports(key)`
+Monthly PDFs/spreadsheets. Keys: `CM`, `INDICES`, `FO`, `CD`, `COM`, `IRD`, `WDM`, `CBM`, `SLBS`, `EGR`.
+
+```bash
+api-anything call nseindia-in monthlyReports key=CM
+```
+
+---
+
 ## What's accessible without a session
 
 | Data | Accessible |
 |---|---|
 | All indices (130+) with PE/PB/A-D | ✅ |
 | Corporate announcements + PDF links | ✅ |
-| Live stock quote (LTP, OHLC, pChange) | ✅ via getquoteapi |
-| Index constituents with live prices | ✅ via indexConstituents |
-| Intraday chart ticks | ✅ via chartIntraday |
-| Stock search by name/symbol | ✅ via stockSearch |
-| Currency spot rates (USD/GBP/EUR/YEN vs INR) | ✅ via refRates |
-| G-sec bond yields | ✅ via refRates |
-| Currency derivatives segment stats | ✅ via currencyDerivativesStats |
-| Market status (all segments) | ✅ |
-| Market turnover by segment | ✅ |
-| Today's gainers (equity + F&O) | ✅ |
-| OI spurts / PCR / falling OI | ✅ |
-| Trading and clearing holidays | ✅ |
-| Most active stocks by volume / value | ✅ |
-| Price circuit band hitters (upper/lower) | ✅ |
-| FII/DII daily net buy/sell data | ✅ |
-| All ETFs with live price + NAV | ✅ |
-| NSE circulars + PDF links | ✅ |
-| Company snapshot (announcements, results, board meetings) | ✅ |
-| Pre-open IEP / order book | ✅ |
-| Option chain data | ❌ returns empty records |
-| Quarterly financials / P&L | ❌ session required |
-| Shareholding patterns | ❌ returns `{}` |
-| Bulk/block deals | ❌ 403 |
+| Live stock quote (LTP, OHLC, pChange) | ✅ |
+| Index constituents with live prices | ✅ |
+| Intraday chart ticks | ✅ |
+| Stock search by name/symbol | ✅ |
+| Currency spot rates / G-sec yields | ✅ |
+| Market status / turnover | ✅ |
+| Gainers, OI spurts, circuit hitters | ✅ |
+| FII/DII, ETFs, circulars, pre-open | ✅ |
+| Daily + monthly report files | ✅ |
+| Option chain / quarterly financials | ❌ session or empty |
