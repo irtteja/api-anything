@@ -452,7 +452,8 @@
           "name": "type",
           "type": "string",
           "required": true,
-          "example": "spurtsinoi"
+          "example": "spurtsinoi",
+          "description": "OI analysis type: \"spurtsinoi\" (highest OI build-up), \"fallinoi\" (fastest OI decline), \"pcr\" (put-call ratio), \"loosening\" (slide in both OI and price simultaneously)."
         }
       ],
       "readOnly": true,
@@ -1100,6 +1101,194 @@
           "example": "ALL"
         }
       ],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-27T12:00:00.000Z"
+    },
+    {
+      "name": "indexNames",
+      "description": "Short-name to full-name mapping for all 150 NSE indices. Returns two parallel arrays: stn (short\u2192full) and nts (full\u2192short). Useful for resolving abbreviated index tickers to their display names.",
+      "request": {
+        "method": "GET",
+        "url": "https://www.nseindia.in/api/index-names",
+        "headers": {
+          "accept": "application/json, text/plain, */*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [],
+      "volatile": [],
+      "trigger": {
+        "url": "https://www.nseindia.in/api/index-names"
+      },
+      "match": {
+        "method": "GET",
+        "host": "www.nseindia.in",
+        "path": "/api/index-names"
+      },
+      "response": {
+        "format": "json",
+        "contentType": "application/json; charset=utf-8",
+        "shape": {
+          "stn": "array",
+          "stn[]": "array",
+          "nts": "array",
+          "nts[]": "array"
+        }
+      },
+      "params": [],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-27T12:00:00.000Z"
+    },
+    {
+      "name": "announcementSearch",
+      "description": "Search NSE corporate announcements with optional symbol and date-range filters across market segments (equities, debt, sme, mf). Returns all historical filings \u2014 unlike corporateAnnouncements which only returns recent ones. Each item includes PDF link.",
+      "request": {
+        "method": "GET",
+        "url": "https://www.nseindia.in/api/corporate-announcements?index=equities&symbol=TCS",
+        "headers": {
+          "accept": "application/json, text/plain, */*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [
+        {
+          "param": "index",
+          "at": [
+            "query:index"
+          ]
+        },
+        {
+          "param": "symbol",
+          "at": [
+            "query:symbol"
+          ]
+        },
+        {
+          "param": "from_date",
+          "at": [
+            "query:from_date"
+          ]
+        },
+        {
+          "param": "to_date",
+          "at": [
+            "query:to_date"
+          ]
+        }
+      ],
+      "volatile": [],
+      "trigger": {
+        "url": "https://www.nseindia.in/api/corporate-announcements?index={index}&symbol={symbol}&from_date={from_date}&to_date={to_date}"
+      },
+      "match": {
+        "method": "GET",
+        "host": "www.nseindia.in",
+        "path": "/api/corporate-announcements"
+      },
+      "response": {
+        "format": "json",
+        "contentType": "application/json; charset=utf-8",
+        "shape": {
+          "[]": "object",
+          "[].an_dt": "string",
+          "[].attFileSize": "string",
+          "[].attchmntFile": "string",
+          "[].attchmntText": "string",
+          "[].desc": "string",
+          "[].dt": "string",
+          "[].sm_isin": "string",
+          "[].sm_name": "string",
+          "[].smIndustry": "string",
+          "[].sort_date": "string",
+          "[].symbol": "string"
+        }
+      },
+      "params": [
+        {
+          "name": "index",
+          "type": "string",
+          "required": true,
+          "description": "Market segment: \"equities\", \"debt\", \"sme\", or \"mf\" (mutual funds).",
+          "example": "equities"
+        },
+        {
+          "name": "symbol",
+          "type": "string",
+          "required": false,
+          "description": "NSE ticker to filter by company (e.g. TCS, RELIANCE). Omit for all companies in the segment.",
+          "example": "TCS"
+        },
+        {
+          "name": "from_date",
+          "type": "string",
+          "required": false,
+          "description": "Start date in DD-MM-YYYY format (e.g. 01-10-2026).",
+          "example": "01-10-2026"
+        },
+        {
+          "name": "to_date",
+          "type": "string",
+          "required": false,
+          "description": "End date in DD-MM-YYYY format (e.g. 27-10-2026).",
+          "example": "27-10-2026"
+        }
+      ],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-27T12:00:00.000Z"
+    },
+    {
+      "name": "derivativeGainers",
+      "description": "Top gainers among F&O-eligible stocks today. Returns NIFTY, BANKNIFTY, NIFTYNEXT50, FOSec (futures-eligible ~200 stocks), and allSec views. FOSec is unique to this vs indexGainers.",
+      "request": {
+        "method": "GET",
+        "url": "https://www.nseindia.in/api/live-analysis-variations?index=gainers&type=derivative",
+        "headers": {
+          "accept": "application/json, text/plain, */*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [],
+      "volatile": [],
+      "trigger": {
+        "url": "https://www.nseindia.in/api/live-analysis-variations?index=gainers&type=derivative"
+      },
+      "match": {
+        "method": "GET",
+        "host": "www.nseindia.in",
+        "path": "/api/live-analysis-variations"
+      },
+      "response": {
+        "format": "json",
+        "contentType": "application/json; charset=utf-8",
+        "shape": {
+          "legends": "array",
+          "NIFTY": "object",
+          "NIFTY.data": "array",
+          "NIFTY.data[]": "object",
+          "NIFTY.data[].symbol": "string",
+          "NIFTY.data[].open_price": "number",
+          "NIFTY.data[].high_price": "number",
+          "NIFTY.data[].low_price": "number",
+          "NIFTY.data[].ltp": "number",
+          "NIFTY.data[].previousPrice": "number",
+          "NIFTY.data[].net_price": "number",
+          "NIFTY.data[].tradedQuantity": "number",
+          "BANKNIFTY": "object",
+          "NIFTYNEXT50": "object",
+          "FOSec": "object",
+          "allSec": "object"
+        }
+      },
+      "params": [],
       "readOnly": true,
       "minTier": 1,
       "learnedLoggedIn": false,

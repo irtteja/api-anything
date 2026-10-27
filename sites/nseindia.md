@@ -22,71 +22,69 @@ api-anything call nseindia-in allindices type=NIFTY
 api-anything call nseindia-in allindices type="NIFTY BANK"
 ```
 
-**Response fields per index:** `index`, `last`, `variation`, `percentChange`, `open`, `high`, `low`, `previousClose`, `yearHigh`, `yearLow`, `pe`, `pb`, `dy`, `advances`, `declines`, `unchanged`, `perChange30d`, `perChange365d`, chart SVG paths.
+**Response fields per index:** `index`, `last`, `variation`, `percentChange`, `open`, `high`, `low`, `previousClose`, `yearHigh`, `yearLow`, `pe`, `pb`, `dy`, `advances`, `declines`, `unchanged`, `perChange30d`, `perChange365d`.
 
 ---
 
 ### `corporateAnnouncements(symbol)`
 
-All exchange filings for a listed company — results, dividends, board meetings, press releases, acquisitions, record dates, etc. Each item includes a direct PDF link.
+Recent exchange filings for a listed company — results, dividends, board meetings, press releases, etc. Each item includes a PDF link.
 
 ```bash
 api-anything call nseindia-in corporateAnnouncements symbol=TCS
 api-anything call nseindia-in corporateAnnouncements symbol=RELIANCE
-api-anything call nseindia-in corporateAnnouncements symbol=HDFCBANK
 ```
 
-**Response fields per filing:** `an_dt`, `desc`, `attchmntText`, `attchmntFile` (PDF URL), `fileSize`, `sm_name`, `sm_isin`, `smIndustry`, `symbol`, `sort_date`.
+**Response:** `an_dt`, `desc`, `attchmntText`, `attchmntFile` (PDF), `sm_name`, `sm_isin`, `symbol`, `sort_date`.
 
 ---
 
 ### `getquoteapi(symbol)`
 
-Live stock quote for any NSE-listed equity: open, day high/low, previous close, LTP, % change, ISIN, market type.
+Live stock quote: open, day high/low, previous close, LTP, % change, ISIN, market type.
 
 ```bash
 api-anything call nseindia-in getquoteapi symbol=RELIANCE
 api-anything call nseindia-in getquoteapi symbol=TCS
-api-anything call nseindia-in getquoteapi symbol=INFY
 ```
 
-**Response fields:** `symbol`, `companyName`, `isinCode`, `series`, `marketType`, `open`, `dayHigh`, `dayLow`, `previousClose`, `averagePrice`, `change`, `pChange`.
+**Response fields:** `symbol`, `companyName`, `isinCode`, `open`, `dayHigh`, `dayLow`, `previousClose`, `change`, `pChange`.
 
 ---
 
 ### `marketStatus()`
 
-Live status of all NSE market segments — Capital Market, Currency, Commodity, Debt, and derivatives. Returns Open/Closed/Pre-open state, trade date, NIFTY 50 level, and currency rates.
+Live Open/Closed/Pre-open state for all NSE segments (Capital Market, Currency, Commodity, Debt, derivatives).
 
 ```bash
 api-anything call nseindia-in marketStatus
 ```
 
-**Response:** array of market state objects with fields `market`, `marketStatus`, `tradeDate`, `index`, `last`, `variation`, `percentChange`, `marketStatusMessage`.
+**Response:** array with `market`, `marketStatus`, `tradeDate`, `index`, `last`, `percentChange`.
 
 ---
 
 ### `marketTurnover()`
 
-Yesterday's and today's turnover (volume, value, open interest) across all NSE segments: Equities, Index/Stock/Currency/Commodity Futures & Options, Interest Rate instruments.
+Yesterday's and today's turnover (volume, value, open interest) per NSE segment.
 
 ```bash
 api-anything call nseindia-in marketTurnover
 ```
 
-**Response:** array with fields per segment: `name`, `yesterday.volume`, `yesterday.value`, `yesterday.openInterest`, `today` (populated during trading hours).
+**Response:** array with `name`, `yesterday.volume`, `yesterday.value`, `yesterday.openInterest`, `today`.
 
 ---
 
 ### `indexGainers()`
 
-Top gainers across NIFTY 50, BANK NIFTY, NIFTY NEXT 50, and all NSE securities today. Each index group has a `data` array of stocks.
+Top gainers across NIFTY 50, BANK NIFTY, NIFTY NEXT 50, and all NSE securities today.
 
 ```bash
 api-anything call nseindia-in indexGainers
 ```
 
-**Response:** object with keys `legends` (index label mapping), `NIFTY`, `BANKNIFTY`, `NIFTYNEXT50`, `allSec`, etc. Each key is an object with a `data` array containing `symbol`, `open_price`, `high_price`, `low_price`, `ltp`, `previousPrice`, `tradedQuantity`.
+**Response:** `legends`, `NIFTY`, `BANKNIFTY`, `NIFTYNEXT50`, `allSec` — each with `data[]` of `symbol`, `open_price`, `ltp`, `previousPrice`, `tradedQuantity`.
 
 ---
 
@@ -105,51 +103,45 @@ api-anything call nseindia-in oiSpurts type=spurtsinoi
 api-anything call nseindia-in oiSpurts type=fallinoi
 ```
 
-**Response fields per contract:** `symbol`, `instrument`, `optionType`, `strikePrice`, `expiryDate`, `latestOI`, `prevOI`, `changeInOI`, `pChangeInOI`, `ltp`, `pChange`, `underlyingValue`, `turnover`, `volume`.
+**Response fields per contract:** `symbol`, `instrument`, `optionType`, `strikePrice`, `expiryDate`, `latestOI`, `prevOI`, `changeInOI`, `pChangeInOI`, `ltp`, `pChange`, `underlyingValue`.
 
 ---
 
 ### `holidayMaster(type)`
 
-NSE trading or clearing holidays for the calendar year, organized by market segment (CM=Capital Market, FO=Futures & Options, CD=Currency Derivatives, etc.).
+NSE trading or clearing holidays for the year, by segment (CM, FO, CD, IRD…).
 
 ```bash
-# Trading holidays
 api-anything call nseindia-in holidayMaster type=trading
-
-# Clearing holidays
 api-anything call nseindia-in holidayMaster type=clearing
 ```
 
-**Response:** object keyed by segment (CM, FO, CD, CBM, IRD…), each an array of `{tradingDate, weekDay, description}`.
+**Response:** object keyed by segment, each an array of `{tradingDate, weekDay, description}`.
 
 ---
 
 ### `equityMaster()`
 
-Master list of all NSE indices organized by category.
+Master list of all NSE indices by category.
 
 ```bash
 api-anything call nseindia-in equityMaster
 ```
 
-**Response:** object with keys `Broad Market Indices`, `Sectoral Market Indices`, `Thematic Market Indices`, `Strategy Market Indices`, `Indices Eligible In Derivatives` — each an array of index name strings.
+**Response:** `Broad Market Indices`, `Sectoral Market Indices`, `Thematic Market Indices`, `Strategy Market Indices`, `Indices Eligible In Derivatives` — each an array of index names.
 
 ---
 
 ### `mostActiveSecurities(type)`
 
-Top 20 most-active NSE equities today, sorted by volume or by traded value.
+Top 20 most-active NSE equities today, by volume or rupee value.
 
 ```bash
-# Most traded by quantity
 api-anything call nseindia-in mostActiveSecurities type=volume
-
-# Most traded by rupee value
 api-anything call nseindia-in mostActiveSecurities type=value
 ```
 
-**Response fields per stock:** `symbol`, `lastPrice`, `pChange`, `quantityTraded`, `totalTradedVolume`, `totalTradedValue`, `previousClose`, `yearHigh`, `yearLow`, `change`, `open`, `dayHigh`, `dayLow`, `lastUpdateTime`.
+**Response fields per stock:** `symbol`, `lastPrice`, `pChange`, `quantityTraded`, `totalTradedVolume`, `totalTradedValue`, `yearHigh`, `yearLow`, `open`, `dayHigh`, `dayLow`.
 
 ---
 
@@ -161,7 +153,7 @@ Stocks hitting their upper or lower price circuit band today (5%, 10%, 20% bands
 api-anything call nseindia-in priceBandHitters
 ```
 
-**Response fields per item:** `symbol`, `series`, `ltp`, `pChange`, `priceBand`, `highPrice`, `lowPrice`, `yearHigh`, `yearLow`, `turnover`. Nested under `upper.AllSec.data[]` and `lower.AllSec.data[]`. Also `count.TOTAL/UPPER/LOWER/BOTH`.
+**Response:** `upper.AllSec.data[]` and `lower.AllSec.data[]` each with `symbol`, `ltp`, `pChange`, `priceBand`, `yearHigh`, `yearLow`, `turnover`. Also `count.TOTAL/UPPER/LOWER/BOTH`.
 
 ---
 
@@ -197,7 +189,7 @@ Recent NSE exchange circulars and notices, with direct PDF/ZIP links.
 api-anything call nseindia-in circulars
 ```
 
-**Response fields per circular:** `cirDate`, `cirDisplayDate`, `circCategory`, `circCompany`, `circDepartment`, `circDisplayNo`, `circFileSize`, `circFilelink` (PDF/ZIP URL), `sub` (subject), `fromDate`, `toDate`.
+**Response fields per circular:** `cirDate`, `circCategory`, `circDepartment`, `circDisplayNo`, `circFilelink` (PDF/ZIP URL), `sub` (subject).
 
 ---
 
@@ -211,11 +203,7 @@ api-anything call nseindia-in topCorpInfo symbol=TCS
 api-anything call nseindia-in topCorpInfo symbol=INFY
 ```
 
-**Response sections:**
-- `latest_announcements.data[]` — `symbol`, `broadcastdate`, `subject`
-- `corporate_actions.data[]` — `symbol`, `exdate`, `purpose`
-- `financial_results.data[]` — `from_date`, `to_date`, `income`, `expenditure`, `reDilEPS`
-- `borad_meeting.data[]` — `symbol`, `purpose`, `meetingdate`
+**Response:** `latest_announcements.data[]` (`symbol`, `broadcastdate`, `subject`), `corporate_actions.data[]` (`exdate`, `purpose`), `financial_results.data[]` (`income`, `expenditure`, `reDilEPS`), `borad_meeting.data[]` (`purpose`, `meetingdate`).
 
 ---
 
@@ -234,7 +222,45 @@ api-anything call nseindia-in preOpenMarket key=FO
 api-anything call nseindia-in preOpenMarket key=SME
 ```
 
-**Response fields per stock:** `metadata.symbol`, `metadata.lastPrice`, `metadata.pChange`, `metadata.previousClose`, `metadata.finalQuantity`, `metadata.yearHigh`, `metadata.yearLow`, `metadata.iep`. Top-level: `advances`, `declines`, `unchanged`.
+**Response fields per stock:** `metadata.symbol`, `metadata.lastPrice`, `metadata.pChange`, `metadata.iep`, `metadata.finalQuantity`, `metadata.yearHigh`, `metadata.yearLow`. Top-level: `advances`, `declines`, `unchanged`.
+
+---
+
+### `indexNames()`
+
+Short-name ↔ full-name mapping for all 150 NSE indices.
+
+```bash
+api-anything call nseindia-in indexNames
+```
+
+**Response:** `{stn: [[shortName, fullName], ...], nts: [[fullName, shortName], ...]}` — 150 pairs each.
+
+---
+
+### `announcementSearch(index, symbol?, from_date?, to_date?)`
+
+Full historical search across NSE corporate announcements. Unlike `corporateAnnouncements` (recent only), this returns every filing ever made. Supports segment filtering (equities/debt/sme/mf), symbol, and date range.
+
+```bash
+api-anything call nseindia-in announcementSearch index=equities symbol=TCS
+api-anything call nseindia-in announcementSearch index=debt from_date=01-10-2026 to_date=27-10-2026
+api-anything call nseindia-in announcementSearch index=sme
+```
+
+**Response:** `an_dt`, `desc`, `attchmntText`, `attchmntFile` (PDF), `sm_name`, `sm_isin`, `symbol`, `sort_date`.
+
+---
+
+### `derivativeGainers()`
+
+Top gainers among F&O-eligible stocks today. Like `indexGainers` but adds `FOSec` key (~200 futures-eligible stocks).
+
+```bash
+api-anything call nseindia-in derivativeGainers
+```
+
+**Response:** `legends`, `NIFTY`, `BANKNIFTY`, `NIFTYNEXT50`, `FOSec`, `allSec` — each with `data[]` of `symbol`, `ltp`, `net_price`, `tradedQuantity`.
 
 ---
 
