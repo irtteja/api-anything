@@ -97,8 +97,8 @@
           "name": "type",
           "type": "string",
           "required": true,
-          "example": "NIFTY",
-          "description": "Index filter. Use \"all\" for all 130+ indices, or a specific name like \"NIFTY\", \"NIFTY BANK\", \"NIFTY IT\"."
+          "description": "Index filter. Use \"all\" for all 130+ indices, or a specific name like \"NIFTY\", \"NIFTY BANK\", \"NIFTY IT\".",
+          "example": "NIFTY"
         }
       ],
       "readOnly": true,
@@ -108,7 +108,7 @@
     },
     {
       "name": "corporateAnnouncements",
-      "description": "Corporate announcements filed by a listed company with NSE — results, dividends, board meetings, press releases, acquisitions, etc. Each item includes the filing date, description, and a direct PDF link.",
+      "description": "Corporate announcements filed by a listed company with NSE \u2014 results, dividends, board meetings, press releases, acquisitions, etc. Each item includes the filing date, description, and a direct PDF link.",
       "request": {
         "method": "GET",
         "url": "https://www.nseindia.in/api/corporate-announcements?index=equities&symbol=RELIANCE&issuer=&from_date=&to_date=&csv=",
@@ -176,14 +176,531 @@
           "name": "symbol",
           "type": "string",
           "required": true,
-          "example": "RELIANCE",
-          "description": "NSE ticker symbol (e.g. TCS, RELIANCE, INFY, HDFCBANK)."
+          "description": "NSE ticker symbol (e.g. TCS, RELIANCE, INFY, HDFCBANK).",
+          "example": "RELIANCE"
         }
       ],
       "readOnly": true,
       "minTier": 1,
       "learnedLoggedIn": false,
       "learnedAt": "2026-10-27T06:13:38.843Z"
+    },
+    {
+      "name": "getquoteapi",
+      "request": {
+        "method": "GET",
+        "url": "https://www.nseindia.in/api/NextApi/apiClient/GetQuoteApi?functionName=getSymbolData&marketType=N&series=EQ&symbol=TCS",
+        "headers": {
+          "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+          "accept-language": "en-US,en;q=0.9",
+          "priority": "u=0, i",
+          "sec-ch-ua": "\"Chromium\";v=\"153\", \"Not_A Brand\";v=\"8\"",
+          "sec-ch-ua-mobile": "?0",
+          "sec-ch-ua-platform": "\"Linux\"",
+          "sec-fetch-dest": "document",
+          "sec-fetch-mode": "navigate",
+          "sec-fetch-site": "none",
+          "sec-fetch-user": "?1",
+          "upgrade-insecure-requests": "1",
+          "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [
+        {
+          "param": "symbol",
+          "at": [
+            "query:symbol"
+          ]
+        }
+      ],
+      "volatile": [],
+      "trigger": {
+        "url": "https://www.nseindia.in/api/NextApi/apiClient/GetQuoteApi?functionName=getSymbolData&marketType=N&series=EQ&symbol={symbol}"
+      },
+      "match": {
+        "method": "GET",
+        "host": "www.nseindia.in",
+        "path": "/api/NextApi/apiClient/GetQuoteApi"
+      },
+      "response": {
+        "format": "json",
+        "contentType": "application/json",
+        "extract": "equityResponse[0].metaData",
+        "shape": {
+          "equityResponse": "array",
+          "equityResponse[]": "object",
+          "equityResponse[].orderBook": "object",
+          "equityResponse[].orderBook.buyPrice1": "number",
+          "equityResponse[].orderBook.buyQuantity1": "number",
+          "equityResponse[].orderBook.buyPrice2": "number",
+          "equityResponse[].orderBook.buyQuantity2": "number",
+          "equityResponse[].orderBook.buyPrice3": "number",
+          "equityResponse[].orderBook.buyQuantity3": "number",
+          "equityResponse[].orderBook.buyPrice4": "number",
+          "equityResponse[].orderBook.buyQuantity4": "number",
+          "equityResponse[].orderBook.buyPrice5": "number",
+          "equityResponse[].orderBook.buyQuantity5": "number",
+          "equityResponse[].orderBook.sellPrice1": "number",
+          "equityResponse[].orderBook.sellQuantity1": "number",
+          "equityResponse[].orderBook.sellPrice2": "number",
+          "equityResponse[].orderBook.sellQuantity2": "number",
+          "equityResponse[].orderBook.sellPrice3": "number",
+          "equityResponse[].orderBook.sellQuantity3": "number",
+          "equityResponse[].orderBook.sellPrice4": "number",
+          "equityResponse[].orderBook.sellQuantity4": "number",
+          "equityResponse[].orderBook.sellPrice5": "number",
+          "equityResponse[].orderBook.sellQuantity5": "number",
+          "equityResponse[].orderBook.lastPrice": "number",
+          "equityResponse[].orderBook.totalBuyQuantity": "number",
+          "equityResponse[].orderBook.totalSellQuantity": "number",
+          "equityResponse[].orderBook.perBuyQty": "number",
+          "equityResponse[].orderBook.perSellQty": "number",
+          "equityResponse[].metaData": "object",
+          "equityResponse[].metaData.identifier": "string",
+          "equityResponse[].metaData.companyName": "string",
+          "equityResponse[].metaData.isinCode": "string",
+          "equityResponse[].metaData.symbol": "string",
+          "equityResponse[].metaData.series": "string",
+          "equityResponse[].metaData.marketType": "string",
+          "equityResponse[].metaData.open": "number",
+          "equityResponse[].metaData.dayHigh": "number",
+          "equityResponse[].metaData.dayLow": "number",
+          "equityResponse[].metaData.previousClose": "number",
+          "equityResponse[].metaData.averagePrice": "number",
+          "equityResponse[].metaData.change": "number",
+          "equityResponse[].metaData.basePrice": "number",
+          "equityResponse[].metaData.closePrice": "number",
+          "equityResponse[].metaData.indicativeClose": "number",
+          "equityResponse[].metaData.ic_change": "number",
+          "equityResponse[].metaData.ic_pchange": "number",
+          "equityResponse[].metaData.spoChange": "number",
+          "equityResponse[].metaData.spoPchange": "number",
+          "equityResponse[].metaData.symbolStatus": "string",
+          "equityResponse[].metaData.adjPrice": "number",
+          "equityResponse[].metaData.iep": "number",
+          "equityResponse[].metaData.ieq": "number",
+          "equityResponse[].metaData.casStatus": "boolean",
+          "equityResponse[].metaData.pChange": "number",
+          "equityResponse[].tradeInfo": "object",
+          "equityResponse[].tradeInfo.totalTradedVolume": "number",
+          "equityResponse[].tradeInfo.totalTradedValue": "number",
+          "equityResponse[].tradeInfo.series": "string",
+          "equityResponse[].tradeInfo.lastPrice": "number",
+          "equityResponse[].tradeInfo.issuedSize": "number",
+          "equityResponse[].tradeInfo.basePrice": "number",
+          "equityResponse[].tradeInfo.ffmc": "number",
+          "equityResponse[].tradeInfo.faceValue": "number",
+          "equityResponse[].tradeInfo.impactCost": "number",
+          "equityResponse[].tradeInfo.deliveryToTradedQuantity": "number",
+          "equityResponse[].tradeInfo.applicableMargin": "number",
+          "equityResponse[].tradeInfo.marketLot": "null",
+          "equityResponse[].tradeInfo.quantitytraded": "number",
+          "equityResponse[].tradeInfo.deliveryquantity": "number",
+          "equityResponse[].tradeInfo.totalMarketCap": "number",
+          "equityResponse[].tradeInfo.secwisedelposdate": "string",
+          "equityResponse[].priceInfo": "object",
+          "equityResponse[].priceInfo.yearHightDt": "string",
+          "equityResponse[].priceInfo.yearLowDt": "string",
+          "equityResponse[].priceInfo.yearHigh": "number",
+          "equityResponse[].priceInfo.yearLow": "number",
+          "equityResponse[].priceInfo.cmDailyVolatility": "string",
+          "equityResponse[].priceInfo.cmAnnualVolatility": "string",
+          "equityResponse[].priceInfo.tickSize": "number",
+          "equityResponse[].priceInfo.inav": "number",
+          "equityResponse[].priceInfo.isINav": "string",
+          "equityResponse[].priceInfo.nav": "null",
+          "equityResponse[].priceInfo.navDate": "null",
+          "equityResponse[].priceInfo.priceBand": "string",
+          "equityResponse[].priceInfo.ppriceBand": "string",
+          "equityResponse[].secInfo": "object",
+          "equityResponse[].secInfo.secStatus": "string",
+          "equityResponse[].secInfo.listingDate": "string",
+          "equityResponse[].secInfo.pdSectorInd": "string",
+          "equityResponse[].secInfo.pdSectorPe": "string",
+          "equityResponse[].secInfo.pdSymbolPe": "string",
+          "equityResponse[].secInfo.isSuspended": "string",
+          "equityResponse[].secInfo.basicIndustry": "string",
+          "equityResponse[].secInfo.index": "string",
+          "equityResponse[].secInfo.deliveryQuantity": "string",
+          "equityResponse[].secInfo.deliveryTotradedQuantity": "string",
+          "equityResponse[].secInfo.securityvar": "string",
+          "equityResponse[].secInfo.indexvar": "string",
+          "equityResponse[].secInfo.extremelossMargin": "string",
+          "equityResponse[].secInfo.varMargin": "string",
+          "equityResponse[].secInfo.adhocMargin": "string",
+          "equityResponse[].secInfo.applicableMargin": "string",
+          "equityResponse[].secInfo.bondType": "null",
+          "equityResponse[].secInfo.issueDesc": "string",
+          "equityResponse[].secInfo.issueDate": "null",
+          "equityResponse[].secInfo.maturityDate": "null",
+          "equityResponse[].secInfo.couponRate": "null",
+          "equityResponse[].secInfo.nxtIpDate": "null",
+          "equityResponse[].secInfo.creditRating": "null",
+          "equityResponse[].secInfo.macro": "string",
+          "equityResponse[].secInfo.sector": "string",
+          "equityResponse[].secInfo.industryInfo": "string",
+          "equityResponse[].secInfo.indexList": "array",
+          "equityResponse[].secInfo.indexList[]": "string",
+          "equityResponse[].secInfo.boardStatus": "string",
+          "equityResponse[].secInfo.tradingSegment": "string",
+          "equityResponse[].secInfo.sessionNo": "null",
+          "equityResponse[].secInfo.classShare": "string",
+          "equityResponse[].secInfo.nameOfComplianceOfficer": "null",
+          "equityResponse[].secInfo.casEligible": "string",
+          "equityResponse[].secInfo.mainCatagory": "null",
+          "equityResponse[].secInfo.subCatagory": "null",
+          "equityResponse[].secInfo.sddcompliance": "null",
+          "equityResponse[].lastUpdateTime": "string"
+        }
+      },
+      "params": [
+        {
+          "name": "symbol",
+          "type": "string",
+          "required": true,
+          "example": "TCS"
+        }
+      ],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-27T06:23:13.513Z"
+    },
+    {
+      "name": "oiSpurts",
+      "request": {
+        "method": "GET",
+        "url": "https://www.nseindia.in/api/live-analysis-OI-spurts-contracts?index=nse&type=spurtsinoi",
+        "headers": {
+          "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+          "accept-language": "en-US,en;q=0.9",
+          "priority": "u=0, i",
+          "sec-ch-ua": "\"Chromium\";v=\"153\", \"Not_A Brand\";v=\"8\"",
+          "sec-ch-ua-mobile": "?0",
+          "sec-ch-ua-platform": "\"Linux\"",
+          "sec-fetch-dest": "document",
+          "sec-fetch-mode": "navigate",
+          "sec-fetch-site": "none",
+          "sec-fetch-user": "?1",
+          "upgrade-insecure-requests": "1",
+          "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [
+        {
+          "param": "type",
+          "at": [
+            "query:type"
+          ]
+        }
+      ],
+      "volatile": [
+        {
+          "at": [
+            "path:1"
+          ],
+          "shape": {
+            "charset": "base64url",
+            "length": 33
+          },
+          "anchor": "api"
+        }
+      ],
+      "trigger": {
+        "url": "https://www.nseindia.in/api/live-analysis-OI-spurts-contracts?index=nse&type={type}"
+      },
+      "match": {
+        "method": "GET",
+        "host": "www.nseindia.in",
+        "path": "/api/*"
+      },
+      "response": {
+        "format": "json",
+        "contentType": "application/json; charset=utf-8",
+        "extract": "data[0].Slide-in-OI-Slide",
+        "shape": {
+          "data": "array",
+          "data[]": "object",
+          "data[].Slide-in-OI-Slide": "array",
+          "data[].Slide-in-OI-Slide[]": "object",
+          "data[].Slide-in-OI-Slide[].changeInOI": "number",
+          "data[].Slide-in-OI-Slide[].expiryDate": "string",
+          "data[].Slide-in-OI-Slide[].instrument": "string",
+          "data[].Slide-in-OI-Slide[].latestOI": "number",
+          "data[].Slide-in-OI-Slide[].ltp": "number",
+          "data[].Slide-in-OI-Slide[].optionType": "string",
+          "data[].Slide-in-OI-Slide[].pChange": "number",
+          "data[].Slide-in-OI-Slide[].premTurnover": "number",
+          "data[].Slide-in-OI-Slide[].prevClose": "number",
+          "data[].Slide-in-OI-Slide[].prevOI": "number",
+          "data[].Slide-in-OI-Slide[].strikePrice": "number",
+          "data[].Slide-in-OI-Slide[].symbol": "string",
+          "data[].Slide-in-OI-Slide[].turnover": "number",
+          "data[].Slide-in-OI-Slide[].type": "string",
+          "data[].Slide-in-OI-Slide[].underlyingValue": "number",
+          "data[].Slide-in-OI-Slide[].volume": "number",
+          "data[].Slide-in-OI-Slide[].identifier": "string",
+          "data[].Slide-in-OI-Slide[].instrumentType": "string",
+          "data[].Slide-in-OI-Slide[].pChangeInOI": "number",
+          "timestamp": "string",
+          "currTradingDate": "string",
+          "prevTradingDate": "string"
+        }
+      },
+      "params": [
+        {
+          "name": "type",
+          "type": "string",
+          "required": true,
+          "example": "spurtsinoi"
+        }
+      ],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-27T06:29:09.394Z",
+      "checks": [
+        {
+          "args": {
+            "type": "fallinoi"
+          },
+          "expect": "result",
+          "purpose": "learn_site holdout"
+        }
+      ]
+    },
+    {
+      "name": "marketStatus",
+      "description": "Live status of all NSE market segments \u2014 Capital Market, Currency, Commodity, Debt, and their futures/options. Returns marketStatus (Open/Closed/Pre-open), tradeDate, current NIFTY 50 level, and currency pair rates.",
+      "request": {
+        "method": "GET",
+        "url": "https://www.nseindia.in/api/marketStatus",
+        "headers": {
+          "accept": "application/json, text/plain, */*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [],
+      "volatile": [],
+      "trigger": {
+        "url": "https://www.nseindia.in/api/marketStatus"
+      },
+      "match": {
+        "method": "GET",
+        "host": "www.nseindia.in",
+        "path": "/api/marketStatus"
+      },
+      "response": {
+        "format": "json",
+        "contentType": "application/json; charset=utf-8",
+        "extract": "marketState",
+        "shape": {
+          "marketState": "array",
+          "marketState[]": "object",
+          "marketState[].market": "string",
+          "marketState[].marketStatus": "string",
+          "marketState[].tradeDate": "string",
+          "marketState[].index": "string",
+          "marketState[].last": "number",
+          "marketState[].variation": "number",
+          "marketState[].percentChange": "number",
+          "marketState[].marketStatusMessage": "string"
+        }
+      },
+      "params": [],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-27T12:00:00.000Z"
+    },
+    {
+      "name": "marketTurnover",
+      "description": "Yesterday's and today's turnover (volume, value, open interest) across all NSE market segments: Equities, Index Futures/Options, Stock Futures/Options, Currency Futures/Options, Commodity Futures/Options, Interest Rate instruments.",
+      "request": {
+        "method": "GET",
+        "url": "https://www.nseindia.in/api/market-turnover",
+        "headers": {
+          "accept": "application/json, text/plain, */*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [],
+      "volatile": [],
+      "trigger": {
+        "url": "https://www.nseindia.in/api/market-turnover"
+      },
+      "match": {
+        "method": "GET",
+        "host": "www.nseindia.in",
+        "path": "/api/market-turnover"
+      },
+      "response": {
+        "format": "json",
+        "contentType": "application/json; charset=utf-8",
+        "extract": "data",
+        "shape": {
+          "data": "array",
+          "data[]": "object",
+          "data[].name": "string",
+          "data[].yesterday": "object",
+          "data[].yesterday.volume": "number",
+          "data[].yesterday.value": "number",
+          "data[].yesterday.openInterest": "number",
+          "data[].today": "object"
+        }
+      },
+      "params": [],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-27T12:00:00.000Z"
+    },
+    {
+      "name": "indexGainers",
+      "description": "Top gainers and losers across NIFTY 50, BANK NIFTY, NIFTY NEXT 50, and all securities today. Returns per-index tables with symbol, open, high, low, LTP, change, and % change.",
+      "request": {
+        "method": "GET",
+        "url": "https://www.nseindia.in/api/live-analysis-variations?index=gainers&exchange=NSE",
+        "headers": {
+          "accept": "application/json, text/plain, */*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [],
+      "volatile": [],
+      "trigger": {
+        "url": "https://www.nseindia.in/api/live-analysis-variations?index=gainers&exchange=NSE"
+      },
+      "match": {
+        "method": "GET",
+        "host": "www.nseindia.in",
+        "path": "/api/live-analysis-variations"
+      },
+      "response": {
+        "format": "json",
+        "contentType": "application/json; charset=utf-8",
+        "shape": {
+          "legends": "array",
+          "legends[]": "array",
+          "NIFTY": "object",
+          "NIFTY.data": "array",
+          "NIFTY.data[]": "object",
+          "NIFTY.data[].symbol": "string",
+          "NIFTY.data[].open_price": "number",
+          "NIFTY.data[].high_price": "number",
+          "NIFTY.data[].low_price": "number",
+          "NIFTY.data[].ltp": "number",
+          "NIFTY.data[].previousPrice": "number",
+          "NIFTY.data[].netPrice": "number",
+          "NIFTY.data[].tradedQuantity": "number",
+          "NIFTY.data[].turnoverInLakhs": "number",
+          "BANKNIFTY": "object",
+          "BANKNIFTY.data": "array",
+          "allSec": "object",
+          "allSec.data": "array"
+        }
+      },
+      "params": [],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-27T12:00:00.000Z"
+    },
+    {
+      "name": "holidayMaster",
+      "description": "NSE trading or clearing holidays for the calendar year, organized by market segment (CM=Capital Market, FO=Futures & Options, CD=Currency Derivatives, etc.). Pass type=trading for trading holidays or type=clearing for clearing holidays.",
+      "request": {
+        "method": "GET",
+        "url": "https://www.nseindia.in/api/holiday-master?type=trading",
+        "headers": {
+          "accept": "application/json, text/plain, */*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [
+        {
+          "param": "type",
+          "at": [
+            "query:type"
+          ]
+        }
+      ],
+      "volatile": [],
+      "trigger": {
+        "url": "https://www.nseindia.in/api/holiday-master?type={type}"
+      },
+      "match": {
+        "method": "GET",
+        "host": "www.nseindia.in",
+        "path": "/api/holiday-master"
+      },
+      "response": {
+        "format": "json",
+        "contentType": "application/json; charset=utf-8",
+        "shape": {
+          "*": "array",
+          "*[]": "object",
+          "*[].tradingDate": "string",
+          "*[].weekDay": "string",
+          "*[].description": "string"
+        }
+      },
+      "params": [
+        {
+          "name": "type",
+          "type": "string",
+          "required": true,
+          "description": "Holiday type: \"trading\" for trading holidays, \"clearing\" for clearing holidays.",
+          "example": "trading"
+        }
+      ],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-27T12:00:00.000Z"
+    },
+    {
+      "name": "equityMaster",
+      "description": "Master list of all NSE indices organized by category: Broad Market, Sectoral, Thematic, Strategy, and indices eligible for derivatives.",
+      "request": {
+        "method": "GET",
+        "url": "https://www.nseindia.in/api/equity-master",
+        "headers": {
+          "accept": "application/json, text/plain, */*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [],
+      "volatile": [],
+      "trigger": {
+        "url": "https://www.nseindia.in/api/equity-master"
+      },
+      "match": {
+        "method": "GET",
+        "host": "www.nseindia.in",
+        "path": "/api/equity-master"
+      },
+      "response": {
+        "format": "json",
+        "contentType": "application/json; charset=utf-8",
+        "shape": {
+          "Indices Eligible In Derivatives": "array",
+          "Broad Market Indices": "array",
+          "Sectoral Market Indices": "array",
+          "Thematic Market Indices": "array",
+          "Strategy Market Indices": "array"
+        }
+      },
+      "params": [],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-27T12:00:00.000Z"
     }
   ]
 }
