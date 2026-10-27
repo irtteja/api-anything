@@ -199,6 +199,27 @@ Short-name ↔ full-name mapping for all 150 NSE indices.
 api-anything call nseindia-in indexNames
 ```
 
+### `commodityFutures()`
+Top 20 most-active NSE commodity futures and options by volume and value. Covers CRUDEOIL, GOLD, SILVER, NATURALGAS, COPPER, etc. Per-contract: OHLC, LTP, change, pChange, OI, turnover, lot size, expiry, spot price.
+
+```bash
+api-anything call nseindia-in commodityFutures
+```
+
+### `marketTurnoverDetail()`
+Per-instrument live stats across all NSE segments — Equities, Index/Stock Futures/Options, Currency, Commodity, Interest Rate. Volume, value, OI, orders, trades, plus previous session values.
+
+```bash
+api-anything call nseindia-in marketTurnoverDetail
+```
+
+### `nsEvents()`
+NSE event calendar — listing ceremonies, conferences, training sessions. Fields: title, category, dates, slug URL, thumbnail.
+
+```bash
+api-anything call nseindia-in nsEvents
+```
+
 ---
 
 ## Maintainer notes

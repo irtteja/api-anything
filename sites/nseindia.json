@@ -1657,6 +1657,143 @@
       "minTier": 1,
       "learnedLoggedIn": false,
       "learnedAt": "2026-10-27T13:00:00.000Z"
+    },
+    {
+      "name": "commodityFutures",
+      "description": "Top 20 most-active NSE commodity futures and options contracts by volume and by value. Covers CRUDEOIL, GOLD, SILVER, NATURALGAS, COPPER, etc. Returns per-contract OHLC, LTP, change, pChange, OI, turnover, lot size, expiry, and underlying spot price.",
+      "request": {
+        "method": "GET",
+        "url": "https://www.nseindia.in/api/commodity-futures",
+        "headers": {
+          "accept": "application/json, text/plain, */*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [],
+      "volatile": [],
+      "trigger": {
+        "url": "https://www.nseindia.in/api/commodity-futures"
+      },
+      "match": {
+        "method": "GET",
+        "host": "www.nseindia.in",
+        "path": "/api/commodity-futures"
+      },
+      "response": {
+        "format": "json",
+        "contentType": "application/json; charset=utf-8",
+        "shape": {
+          "volume": "object",
+          "vol_timestamp": "string",
+          "value": "object",
+          "val_timestamp": "string",
+          "marketStatus": "object"
+        }
+      },
+      "params": [],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-27T14:00:00.000Z"
+    },
+    {
+      "name": "marketTurnoverDetail",
+      "description": "Per-instrument live trading statistics across all NSE market segments: Equities, Index Futures/Options, Stock Futures/Options, Currency, Commodity, and Interest Rate. Returns volume, value, OI, number of orders/trades, average trade size, and previous session equivalents.",
+      "request": {
+        "method": "GET",
+        "url": "https://www.nseindia.in/api/market-turnover-popup",
+        "headers": {
+          "accept": "application/json, text/plain, */*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [],
+      "volatile": [],
+      "trigger": {
+        "url": "https://www.nseindia.in/api/market-turnover-popup"
+      },
+      "match": {
+        "method": "GET",
+        "host": "www.nseindia.in",
+        "path": "/api/market-turnover-popup"
+      },
+      "response": {
+        "format": "json",
+        "contentType": "application/json; charset=utf-8",
+        "extract": "data",
+        "shape": {
+          "data": "array",
+          "data[]": "object",
+          "data[].instrument": "string",
+          "data[].volume": "string",
+          "data[].value": "string",
+          "data[].oivalue": "string",
+          "data[].noOfOrders": "string",
+          "data[].noOfTrades": "string",
+          "data[].mktTimeStamp": "string",
+          "data[].averageTrade": "string",
+          "data[].prevVolume": "string",
+          "data[].prevValue": "string",
+          "data[].prevOivalue": "string",
+          "currentDate": "string"
+        }
+      },
+      "params": [],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-27T14:00:00.000Z"
+    },
+    {
+      "name": "nsEvents",
+      "description": "NSE event calendar \u2014 listing ceremonies, conferences, training sessions, and exchange events. Each item includes title, category, date range, a slug URL for the event page, and a thumbnail image URL.",
+      "request": {
+        "method": "GET",
+        "url": "https://www.nseindia.in/api/eventnotification",
+        "headers": {
+          "accept": "application/json, text/plain, */*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [],
+      "volatile": [],
+      "trigger": {
+        "url": "https://www.nseindia.in/api/eventnotification"
+      },
+      "match": {
+        "method": "GET",
+        "host": "www.nseindia.in",
+        "path": "/api/eventnotification"
+      },
+      "response": {
+        "format": "json",
+        "contentType": "application/json; charset=utf-8",
+        "extract": "data",
+        "shape": {
+          "success": "boolean",
+          "message": "string",
+          "responseCode": "number",
+          "data": "array",
+          "data[]": "object",
+          "data[].ID": "number",
+          "data[].EVENT_DATE": "string",
+          "data[].TITLE": "string",
+          "data[].CATEGORY_NAME": "string",
+          "data[].SLUG_URL": "string",
+          "data[].EVENT_START_TIMESTAMP": "string",
+          "data[].EVENT_END_TIMESTAMP": "string",
+          "data[].EVENT_DATE_LABEL": "string",
+          "data[].THUMBNAIL_URL": "string"
+        }
+      },
+      "params": [],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-27T14:00:00.000Z"
     }
   ]
 }
