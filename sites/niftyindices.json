@@ -1,0 +1,478 @@
+{
+  "name": "niftyindices",
+  "displayName": "NSE Indices (niftyindices.com)",
+  "baseUrl": "https://liveindexsa.niftyindices.com",
+  "description": "NSE Indices Limited (formerly IISL). Live index and constituent data from liveindexsa.niftyindices.com (Azure CDN, no auth) and www.niftyindices.com. Includes index constituent CSVs, press releases (which announce upcoming additions/removals), and live intraday data.",
+  "operations": [
+    {
+      "name": "liveIndicesWatch",
+      "description": "All 131 NSE indices with live OHLC, % change, previous close, year high/low, and timestamp. Updated every minute during market hours.",
+      "request": {
+        "method": "GET",
+        "url": "https://liveindexsa.niftyindices.com/jsonfiles/LiveIndicesWatch.json",
+        "headers": {
+          "accept": "application/json, text/plain, */*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [],
+      "volatile": [],
+      "trigger": {
+        "url": "https://liveindexsa.niftyindices.com/jsonfiles/LiveIndicesWatch.json"
+      },
+      "match": {
+        "method": "GET",
+        "host": "liveindexsa.niftyindices.com",
+        "path": "/jsonfiles/LiveIndicesWatch.json"
+      },
+      "response": {
+        "format": "json",
+        "contentType": "application/json",
+        "extract": "data",
+        "shape": {
+          "data": "array",
+          "data[]": "object",
+          "data[].indexName": "string",
+          "data[].last": "string",
+          "data[].open": "string",
+          "data[].high": "string",
+          "data[].low": "string",
+          "data[].percChange": "string",
+          "data[].previousClose": "string",
+          "data[].yearHigh": "string",
+          "data[].yearLow": "string",
+          "data[].timeVal": "string",
+          "data[].indicativeClose": "string",
+          "data[].isConstituents": "string"
+        }
+      },
+      "params": [],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-27T09:00:00.000Z"
+    },
+    {
+      "name": "etfWatch",
+      "description": "Live prices and NAV for all 146 NSE-listed ETFs. Per ETF: symbol, LTP, NAV, 52-week high/low, monthly and yearly % change, traded quantity and value, ex-dividend date, underlying asset.",
+      "request": {
+        "method": "GET",
+        "url": "https://liveindexsa.niftyindices.com/jsonfiles/ETF.json",
+        "headers": {
+          "accept": "application/json, text/plain, */*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [],
+      "volatile": [],
+      "trigger": {
+        "url": "https://liveindexsa.niftyindices.com/jsonfiles/ETF.json"
+      },
+      "match": {
+        "method": "GET",
+        "host": "liveindexsa.niftyindices.com",
+        "path": "/jsonfiles/ETF.json"
+      },
+      "response": {
+        "format": "json",
+        "contentType": "application/json",
+        "extract": "data",
+        "shape": {
+          "data": "array",
+          "data[]": "object",
+          "data[].symbol": "string",
+          "data[].ltP": "string",
+          "data[].nav": "string",
+          "data[].wkhi": "string",
+          "data[].wklo": "string",
+          "data[].mPC": "string",
+          "data[].yPC": "string",
+          "data[].chn": "string",
+          "data[].per": "string",
+          "data[].qty": "string",
+          "data[].trdVal": "string",
+          "data[].open": "string",
+          "data[].high": "string",
+          "data[].low": "string",
+          "data[].xDt": "string",
+          "data[].cAct": "string",
+          "data[].assets": "string"
+        }
+      },
+      "params": [],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-27T09:00:00.000Z"
+    },
+    {
+      "name": "equityStockWatch",
+      "description": "Live price snapshot for every constituent of a given NSE index. Per stock: symbol, LTP, change %, 52-week hi/lo, market cap, traded volume/value, ex-dividend date, corporate action, 30d/365d performance. Works for all 130+ indices.",
+      "request": {
+        "method": "GET",
+        "url": "https://liveindexsa.niftyindices.com/jsonfiles/equitystockwatch/EquityStockWatchNIFTY%2050.json",
+        "headers": {
+          "accept": "application/json, text/plain, */*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [
+        {
+          "param": "index",
+          "at": ["path:2"],
+          "template": "EquityStockWatch{index}.json"
+        }
+      ],
+      "volatile": [],
+      "trigger": {
+        "url": "https://liveindexsa.niftyindices.com/jsonfiles/equitystockwatch/EquityStockWatch{index}.json"
+      },
+      "match": {
+        "method": "GET",
+        "host": "liveindexsa.niftyindices.com",
+        "path": "/jsonfiles/equitystockwatch/"
+      },
+      "response": {
+        "format": "json",
+        "contentType": "application/json",
+        "extract": "data",
+        "shape": {
+          "data": "array",
+          "data[]": "object",
+          "data[].symbol": "string",
+          "data[].ltP": "string",
+          "data[].ptsC": "string",
+          "data[].iislPercChange": "string",
+          "data[].wkhi": "string",
+          "data[].wklo": "string",
+          "data[].mPC": "string",
+          "data[].yPC": "string",
+          "data[].mVal": "string",
+          "data[].trdVol": "string",
+          "data[].ntP": "string",
+          "data[].xDt": "string",
+          "data[].cAct": "string",
+          "data[].open": "string",
+          "data[].high": "string",
+          "data[].low": "string",
+          "data[].previousClose": "string",
+          "advances": "number",
+          "declines": "number",
+          "unchanged": "number",
+          "time": "string"
+        }
+      },
+      "params": [
+        {
+          "name": "index",
+          "type": "string",
+          "required": true,
+          "description": "Index name with spaces (URL-encoded to %20 automatically). E.g. \"NIFTY 50\", \"NIFTY BANK\", \"NIFTY IT\", \"NIFTY MIDCAP 100\".",
+          "example": "NIFTY 50"
+        }
+      ],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-27T09:00:00.000Z"
+    },
+    {
+      "name": "intradayIndex",
+      "description": "Today's intraday OHLCV ticks for any NSE index, plus advance/decline count and live price. Returns 200-400+ data points. Use this for intraday charts.",
+      "request": {
+        "method": "GET",
+        "url": "https://liveindexsa.niftyindices.com/jsonfiles/Intraday/IntradayNIFTY%2050.json",
+        "headers": {
+          "accept": "application/json, text/plain, */*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [
+        {
+          "param": "index",
+          "at": ["path:2"],
+          "template": "Intraday{index}.json"
+        }
+      ],
+      "volatile": [],
+      "trigger": {
+        "url": "https://liveindexsa.niftyindices.com/jsonfiles/Intraday/Intraday{index}.json"
+      },
+      "match": {
+        "method": "GET",
+        "host": "liveindexsa.niftyindices.com",
+        "path": "/jsonfiles/Intraday/"
+      },
+      "response": {
+        "format": "json",
+        "contentType": "application/json",
+        "shape": {
+          "name": "string",
+          "lastPrice": "string",
+          "change": "number",
+          "pChange": "number",
+          "advances": "number",
+          "declines": "number",
+          "unchanged": "number",
+          "graphType": "string",
+          "graphData": "array",
+          "graphData[]": "object",
+          "graphData[].time": "string",
+          "graphData[].open": "string",
+          "graphData[].high": "string",
+          "graphData[].low": "string",
+          "graphData[].close": "string",
+          "graphData[].volume": "string"
+        }
+      },
+      "params": [
+        {
+          "name": "index",
+          "type": "string",
+          "required": true,
+          "description": "Index name with spaces. E.g. \"NIFTY 50\", \"NIFTY BANK\", \"NIFTY IT\".",
+          "example": "NIFTY 50"
+        }
+      ],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-27T09:00:00.000Z"
+    },
+    {
+      "name": "stockIntraday",
+      "description": "Today's intraday OHLCV ticks for an individual NSE-listed stock. Returns data during market hours; empty outside trading hours.",
+      "request": {
+        "method": "GET",
+        "url": "https://liveindexsa.niftyindices.com/jsonfiles/CMIntraday/CMIntradayRELIANCE.json",
+        "headers": {
+          "accept": "application/json, text/plain, */*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [
+        {
+          "param": "symbol",
+          "at": ["path:2"],
+          "template": "CMIntraday{symbol}.json"
+        }
+      ],
+      "volatile": [],
+      "trigger": {
+        "url": "https://liveindexsa.niftyindices.com/jsonfiles/CMIntraday/CMIntraday{symbol}.json"
+      },
+      "match": {
+        "method": "GET",
+        "host": "liveindexsa.niftyindices.com",
+        "path": "/jsonfiles/CMIntraday/"
+      },
+      "response": {
+        "format": "json",
+        "contentType": "application/json",
+        "shape": {
+          "name": "string",
+          "lastPrice": "string",
+          "change": "number",
+          "pChange": "number",
+          "graphType": "string",
+          "graphData": "array",
+          "graphData[]": "object",
+          "graphData[].time": "string",
+          "graphData[].open": "string",
+          "graphData[].high": "string",
+          "graphData[].low": "string",
+          "graphData[].close": "string",
+          "graphData[].volume": "string"
+        }
+      },
+      "params": [
+        {
+          "name": "symbol",
+          "type": "string",
+          "required": true,
+          "description": "NSE stock symbol in uppercase. E.g. \"RELIANCE\", \"TCS\", \"INFY\", \"HDFCBANK\".",
+          "example": "RELIANCE"
+        }
+      ],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-27T09:00:00.000Z"
+    },
+    {
+      "name": "indexConstituents",
+      "description": "Current constituent list for any NSE index as CSV — company name, industry, symbol (NSE ticker), series, and ISIN code. Diff this daily to detect additions and removals. Works for ~100 indices.",
+      "request": {
+        "method": "GET",
+        "url": "https://www.niftyindices.com/IndexConstituent/ind_nifty50list.csv",
+        "headers": {
+          "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [
+        {
+          "param": "slug",
+          "at": ["path:1"],
+          "template": "ind_{slug}list.csv"
+        }
+      ],
+      "volatile": [],
+      "trigger": {
+        "url": "https://www.niftyindices.com/IndexConstituent/ind_{slug}list.csv"
+      },
+      "match": {
+        "method": "GET",
+        "host": "www.niftyindices.com",
+        "path": "/IndexConstituent/"
+      },
+      "response": {
+        "format": "html",
+        "contentType": "text/csv",
+        "shape": {}
+      },
+      "params": [
+        {
+          "name": "slug",
+          "type": "string",
+          "required": true,
+          "description": "Index slug (lowercase, no spaces). Common slugs: nifty50, niftynext50, nifty100, nifty500, niftybank, niftyit, niftymidcap100, niftymidcap50, niftysmlcap100, niftyauto, niftypharma, niftyfmcg, niftymetal, niftymedia, niftyrealty.",
+          "example": "nifty50"
+        }
+      ],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-27T09:00:00.000Z"
+    },
+    {
+      "name": "indexMapping",
+      "description": "Full name mapping for all 260 NSE indices — trading short-name to long display name. Useful for resolving index names across systems.",
+      "request": {
+        "method": "GET",
+        "url": "https://liveindexsa.niftyindices.com/assets/json/IndexMapping.json",
+        "headers": {
+          "accept": "application/json, text/plain, */*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [],
+      "volatile": [],
+      "trigger": {
+        "url": "https://liveindexsa.niftyindices.com/assets/json/IndexMapping.json"
+      },
+      "match": {
+        "method": "GET",
+        "host": "liveindexsa.niftyindices.com",
+        "path": "/assets/json/IndexMapping.json"
+      },
+      "response": {
+        "format": "json",
+        "contentType": "application/json",
+        "shape": {
+          "[]": "object",
+          "[].Trading_Index_Name": "string",
+          "[].Index_long_name": "string"
+        }
+      },
+      "params": [],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-27T09:00:00.000Z"
+    },
+    {
+      "name": "tickerIndices",
+      "description": "32 key NSE indices in compact ticker format — index name, LTP, change, % change, OHLC, year high/low, and timestamp. Lighter than liveIndicesWatch.",
+      "request": {
+        "method": "GET",
+        "url": "https://liveindexsa.niftyindices.com/jsonfiles/TickerLiveIndicesWatch.json",
+        "headers": {
+          "accept": "application/json, text/plain, */*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [],
+      "volatile": [],
+      "trigger": {
+        "url": "https://liveindexsa.niftyindices.com/jsonfiles/TickerLiveIndicesWatch.json"
+      },
+      "match": {
+        "method": "GET",
+        "host": "liveindexsa.niftyindices.com",
+        "path": "/jsonfiles/TickerLiveIndicesWatch.json"
+      },
+      "response": {
+        "format": "json",
+        "contentType": "application/json",
+        "shape": {
+          "[]": "array",
+          "[][]": "object",
+          "[][].indexName": "string",
+          "[][].last": "string",
+          "[][].percChange": "string",
+          "[][].open": "string",
+          "[][].high": "string",
+          "[][].low": "string",
+          "[][].previousClose": "string",
+          "[][].yearHigh": "string",
+          "[][].yearLow": "string",
+          "[][].timeVal": "string"
+        }
+      },
+      "params": [],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-27T09:00:00.000Z"
+    },
+    {
+      "name": "pressReleases",
+      "description": "Recent NSE Indices press releases from niftyindices.com/media — each item has the date, title, and a direct PDF link. Constituent change announcements (additions/removals) appear here typically 4–6 weeks before effective date.",
+      "request": {
+        "method": "GET",
+        "url": "https://www.niftyindices.com/media",
+        "headers": {
+          "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [],
+      "volatile": [],
+      "trigger": {
+        "url": "https://www.niftyindices.com/media"
+      },
+      "match": {
+        "method": "GET",
+        "host": "www.niftyindices.com",
+        "path": "/media"
+      },
+      "response": {
+        "format": "html",
+        "contentType": "text/html; charset=utf-8",
+        "html": {
+          "items": "li:has(a[href*='Press_Release'])",
+          "fields": {
+            "date": "span",
+            "title": "a",
+            "url": "a@href"
+          }
+        }
+      },
+      "params": [],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-27T09:00:00.000Z"
+    }
+  ]
+}

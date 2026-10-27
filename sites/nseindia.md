@@ -222,8 +222,6 @@ api-anything call nseindia-in nsEvents
 
 ---
 
-## Maintainer notes
-
 ## What's accessible without a session
 
 | Data | Accessible |
