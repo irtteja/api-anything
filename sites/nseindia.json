@@ -2137,6 +2137,411 @@
       "minTier": 1,
       "learnedLoggedIn": false,
       "learnedAt": "2026-10-27T14:00:00.000Z"
+    },
+    {
+      "name": "eventCalendar",
+      "description": "Corporate event calendar for NSE-listed equities — board meetings, financial results announcements, AGMs, fund raises, stock splits, dividends. Each item has symbol, company, purpose, full board-meeting description, and date. Use from_date/to_date to filter by date range (DD-MM-YYYY). Pass fo_sec=true to restrict to F&O-eligible stocks.",
+      "request": {
+        "method": "GET",
+        "url": "https://www.nseindia.in/api/event-calendar?index=equities&from_date=20-10-2026&to_date=28-10-2026",
+        "headers": {
+          "accept": "application/json, text/plain, */*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [
+        { "param": "from_date", "at": ["query:from_date"] },
+        { "param": "to_date",   "at": ["query:to_date"] },
+        { "param": "fo_sec",    "at": ["query:fo_sec"] }
+      ],
+      "volatile": [],
+      "trigger": {
+        "url": "https://www.nseindia.in/api/event-calendar?index=equities&from_date={from_date}&to_date={to_date}&fo_sec={fo_sec}"
+      },
+      "match": {
+        "method": "GET",
+        "host": "www.nseindia.in",
+        "path": "/api/event-calendar"
+      },
+      "response": {
+        "format": "json",
+        "contentType": "application/json; charset=utf-8",
+        "shape": {
+          "[]": "object",
+          "[].symbol": "string",
+          "[].company": "string",
+          "[].purpose": "string",
+          "[].bm_desc": "string",
+          "[].date": "string"
+        }
+      },
+      "params": [
+        {
+          "name": "from_date",
+          "type": "string",
+          "required": true,
+          "description": "Start date in DD-MM-YYYY format.",
+          "example": "01-10-2026"
+        },
+        {
+          "name": "to_date",
+          "type": "string",
+          "required": true,
+          "description": "End date in DD-MM-YYYY format.",
+          "example": "28-10-2026"
+        },
+        {
+          "name": "fo_sec",
+          "type": "string",
+          "required": false,
+          "description": "Pass \"true\" to restrict results to F&O-eligible stocks only.",
+          "example": "true"
+        }
+      ],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-28T00:00:00.000Z"
+    },
+    {
+      "name": "corporateActions",
+      "description": "Corporate actions (dividends, stock splits, bonus issues, rights) for a listed company. Each item has exDate, record date, book closure dates, subject (e.g. 'Interim Dividend Rs 11 Per Share'), face value, series, ISIN, and industry. Pass from_date/to_date to filter.",
+      "request": {
+        "method": "GET",
+        "url": "https://www.nseindia.in/api/corporates-corporateactions?index=equities&symbol=TCS&from_date=01-01-2026&to_date=28-10-2026",
+        "headers": {
+          "accept": "application/json, text/plain, */*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [
+        { "param": "symbol",    "at": ["query:symbol"] },
+        { "param": "from_date", "at": ["query:from_date"] },
+        { "param": "to_date",   "at": ["query:to_date"] }
+      ],
+      "volatile": [],
+      "trigger": {
+        "url": "https://www.nseindia.in/api/corporates-corporateactions?index=equities&symbol={symbol}&from_date={from_date}&to_date={to_date}"
+      },
+      "match": {
+        "method": "GET",
+        "host": "www.nseindia.in",
+        "path": "/api/corporates-corporateactions"
+      },
+      "response": {
+        "format": "json",
+        "contentType": "application/json; charset=utf-8",
+        "shape": {
+          "[]": "object",
+          "[].symbol": "string",
+          "[].comp": "string",
+          "[].series": "string",
+          "[].isin": "string",
+          "[].faceVal": "string",
+          "[].subject": "string",
+          "[].exDate": "string",
+          "[].recDate": "string",
+          "[].bcStartDate": "string",
+          "[].bcEndDate": "string",
+          "[].ndStartDate": "string",
+          "[].ndEndDate": "string",
+          "[].ind": "string",
+          "[].caBroadcastDate": "null"
+        }
+      },
+      "params": [
+        {
+          "name": "symbol",
+          "type": "string",
+          "required": true,
+          "description": "NSE ticker symbol (e.g. TCS, RELIANCE, INFY).",
+          "example": "TCS"
+        },
+        {
+          "name": "from_date",
+          "type": "string",
+          "required": false,
+          "description": "Start date in DD-MM-YYYY format.",
+          "example": "01-01-2026"
+        },
+        {
+          "name": "to_date",
+          "type": "string",
+          "required": false,
+          "description": "End date in DD-MM-YYYY format.",
+          "example": "28-10-2026"
+        }
+      ],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-28T00:00:00.000Z"
+    },
+    {
+      "name": "underlyingInfo",
+      "description": "Master list of all F&O-eligible underlyings on NSE. Returns two lists: IndexList (6 index underlyings: NIFTY, BANKNIFTY, FINNIFTY, NIFTYFPI, MIDCPNIFTY, NIFTY100) and UnderlyingList (219 stock underlyings) — each with symbol, full name, and serialNumber. Use this to enumerate valid F&O symbols before querying option chains.",
+      "request": {
+        "method": "GET",
+        "url": "https://www.nseindia.in/api/underlying-information",
+        "headers": {
+          "accept": "application/json, text/plain, */*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [],
+      "volatile": [],
+      "trigger": {
+        "url": "https://www.nseindia.in/api/underlying-information"
+      },
+      "match": {
+        "method": "GET",
+        "host": "www.nseindia.in",
+        "path": "/api/underlying-information"
+      },
+      "response": {
+        "format": "json",
+        "contentType": "application/json; charset=utf-8",
+        "extract": "data",
+        "shape": {
+          "data": "object",
+          "data.IndexList": "array",
+          "data.IndexList[]": "object",
+          "data.IndexList[].symbol": "string",
+          "data.IndexList[].underlying": "string",
+          "data.IndexList[].serialNumber": "number",
+          "data.UnderlyingList": "array",
+          "data.UnderlyingList[]": "object",
+          "data.UnderlyingList[].symbol": "string",
+          "data.UnderlyingList[].underlying": "string",
+          "data.UnderlyingList[].serialNumber": "number"
+        }
+      },
+      "params": [],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-28T00:00:00.000Z"
+    },
+    {
+      "name": "stocksTraded",
+      "description": "Live snapshot of every equity currently traded on NSE today — 3200+ stocks with LTP, change, % change, previous close, total traded volume/value, market cap, and series. Also returns aggregate advance/decline/unchanged counts.",
+      "request": {
+        "method": "GET",
+        "url": "https://www.nseindia.in/api/live-analysis-stocksTraded",
+        "headers": {
+          "accept": "application/json, text/plain, */*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [],
+      "volatile": [],
+      "trigger": {
+        "url": "https://www.nseindia.in/api/live-analysis-stocksTraded"
+      },
+      "match": {
+        "method": "GET",
+        "host": "www.nseindia.in",
+        "path": "/api/live-analysis-stocksTraded"
+      },
+      "response": {
+        "format": "json",
+        "contentType": "application/json; charset=utf-8",
+        "extract": "total.data",
+        "shape": {
+          "total": "object",
+          "total.count": "object",
+          "total.count.Advances": "number",
+          "total.count.Declines": "number",
+          "total.count.Unchange": "number",
+          "total.count.Total": "number",
+          "total.data": "array",
+          "total.data[]": "object",
+          "total.data[].symbol": "string",
+          "total.data[].identifier": "string",
+          "total.data[].series": "string",
+          "total.data[].marketType": "string",
+          "total.data[].lastPrice": "number",
+          "total.data[].previousClose": "number",
+          "total.data[].change": "number",
+          "total.data[].pchange": "number",
+          "total.data[].basePrice": "number",
+          "total.data[].totalTradedVolume": "number",
+          "total.data[].totalTradedValue": "number",
+          "total.data[].totalMarketCap": "number",
+          "total.data[].issuedCap": "number",
+          "timestamp": "string"
+        }
+      },
+      "params": [],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-28T00:00:00.000Z"
+    },
+    {
+      "name": "mostActiveUnderlying",
+      "description": "Top 223 most-active F&O underlyings ranked by total options + futures volume today. Returns futures volume, options volume, total volume, futures/options/total turnover, previous session turnover, open interest, and current underlying spot price for each.",
+      "request": {
+        "method": "GET",
+        "url": "https://www.nseindia.in/api/live-analysis-most-active-underlying",
+        "headers": {
+          "accept": "application/json, text/plain, */*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [],
+      "volatile": [],
+      "trigger": {
+        "url": "https://www.nseindia.in/api/live-analysis-most-active-underlying"
+      },
+      "match": {
+        "method": "GET",
+        "host": "www.nseindia.in",
+        "path": "/api/live-analysis-most-active-underlying"
+      },
+      "response": {
+        "format": "json",
+        "contentType": "application/json; charset=utf-8",
+        "extract": "data",
+        "shape": {
+          "data": "array",
+          "data[]": "object",
+          "data[].symbol": "string",
+          "data[].futVolume": "number",
+          "data[].optVolume": "number",
+          "data[].totVolume": "number",
+          "data[].futTurnover": "number",
+          "data[].optTurnover": "number",
+          "data[].totTurnover": "number",
+          "data[].preTurnover": "number",
+          "data[].latestOI": "number",
+          "data[].underlying": "number",
+          "timestamp": "string"
+        }
+      },
+      "params": [],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-28T00:00:00.000Z"
+    },
+    {
+      "name": "optionChainInfo",
+      "description": "All available expiry dates and strike prices for an F&O underlying. Use this before querying the option chain to know which expiries and strikes are tradeable. Works for both index underlyings (NIFTY, BANKNIFTY, FINNIFTY) and individual stocks (TCS, RELIANCE, etc.).",
+      "request": {
+        "method": "GET",
+        "url": "https://www.nseindia.in/api/option-chain-contract-info?symbol=NIFTY",
+        "headers": {
+          "accept": "application/json, text/plain, */*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [
+        { "param": "symbol", "at": ["query:symbol"] }
+      ],
+      "volatile": [],
+      "trigger": {
+        "url": "https://www.nseindia.in/api/option-chain-contract-info?symbol={symbol}"
+      },
+      "match": {
+        "method": "GET",
+        "host": "www.nseindia.in",
+        "path": "/api/option-chain-contract-info"
+      },
+      "response": {
+        "format": "json",
+        "contentType": "application/json; charset=utf-8",
+        "shape": {
+          "expiryDates": "array",
+          "expiryDates[]": "string",
+          "strikePrice": "array",
+          "strikePrice[]": "string"
+        }
+      },
+      "params": [
+        {
+          "name": "symbol",
+          "type": "string",
+          "required": true,
+          "description": "F&O underlying symbol — index (NIFTY, BANKNIFTY, FINNIFTY, MIDCPNIFTY) or stock (TCS, RELIANCE, INFY).",
+          "example": "NIFTY"
+        }
+      ],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-28T00:00:00.000Z"
+    },
+    {
+      "name": "vixHistory",
+      "description": "Historical daily OHLC for India VIX (volatility index) over a date range. Each record has date, open, high, low, close, previous close, points change, and percent change.",
+      "request": {
+        "method": "GET",
+        "url": "https://www.nseindia.in/api/historicalOR/vixhistory?from=01-10-2026&to=28-10-2026",
+        "headers": {
+          "accept": "application/json, text/plain, */*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [
+        { "param": "from_date", "at": ["query:from"] },
+        { "param": "to_date",   "at": ["query:to"] }
+      ],
+      "volatile": [],
+      "trigger": {
+        "url": "https://www.nseindia.in/api/historicalOR/vixhistory?from={from_date}&to={to_date}"
+      },
+      "match": {
+        "method": "GET",
+        "host": "www.nseindia.in",
+        "path": "/api/historicalOR/vixhistory"
+      },
+      "response": {
+        "format": "json",
+        "contentType": "application/json; charset=utf-8",
+        "extract": "data",
+        "shape": {
+          "data": "array",
+          "data[]": "object",
+          "data[].EOD_TIMESTAMP": "string",
+          "data[].EOD_INDEX_NAME": "string",
+          "data[].EOD_OPEN_INDEX_VAL": "number",
+          "data[].EOD_HIGH_INDEX_VAL": "number",
+          "data[].EOD_LOW_INDEX_VAL": "number",
+          "data[].EOD_CLOSE_INDEX_VAL": "number",
+          "data[].EOD_PREV_CLOSE": "number",
+          "data[].VIX_PTS_CHG": "number",
+          "data[].VIX_PERC_CHG": "number",
+          "data[].HI_TIMESTAMP_ORDER": "string"
+        }
+      },
+      "params": [
+        {
+          "name": "from_date",
+          "type": "string",
+          "required": true,
+          "description": "Start date in DD-MM-YYYY format.",
+          "example": "01-10-2026"
+        },
+        {
+          "name": "to_date",
+          "type": "string",
+          "required": true,
+          "description": "End date in DD-MM-YYYY format.",
+          "example": "28-10-2026"
+        }
+      ],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-28T00:00:00.000Z"
     }
   ]
 }

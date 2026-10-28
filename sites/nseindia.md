@@ -25,7 +25,7 @@ api-anything call nseindia-in corporateAnnouncements symbol=TCS
 ```
 
 ### `announcementSearch(index, symbol?, from_date?, to_date?)`
-Full historical search across corporate announcements. `index` is the segment: `equities`, `debt`, `sme`, or `mf`.
+Full historical search across corporate announcements. `index`: `equities`, `debt`, `sme`, `mf`.
 
 ```bash
 api-anything call nseindia-in announcementSearch index=equities symbol=TCS
@@ -38,186 +38,81 @@ Live stock quote: LTP, OHLC, % change, ISIN, order book depth, trade info, margi
 api-anything call nseindia-in getquoteapi symbol=RELIANCE
 ```
 
-### `indexConstituents(index)`
-Live price snapshot for every stock in an NSE index. Works for 100+ indices. Use spaces in the name.
+### `indexConstituents(index)` / `indexSnapshot(index)`
+`indexConstituents`: live price for every stock in an index (100+ indices). `indexSnapshot`: compact OHLC + advance/decline.
 
 ```bash
 api-anything call nseindia-in indexConstituents index="NIFTY 50"
-api-anything call nseindia-in indexConstituents index="NIFTY IT"
-```
-
-### `indexSnapshot(index)`
-Compact index summary: OHLC, current level, % change, 30d/365d performance, yearHigh/Low, volume, advance/decline counts. Lighter than `indexConstituents`.
-
-```bash
-api-anything call nseindia-in indexSnapshot index="NIFTY 50"
-api-anything call nseindia-in indexSnapshot index="NIFTY MIDCAP 100"
+api-anything call nseindia-in indexSnapshot index="NIFTY BANK"
 ```
 
 ### `chartIntraday(index)`
-Today's intraday price ticks for any NSE index. Returns 10,000+ `[timestamp_ms, price, marker]` points.
+Today's intraday ticks — 10,000+ `[timestamp_ms, price, marker]` points.
 
 ```bash
 api-anything call nseindia-in chartIntraday index="NIFTY 50"
-api-anything call nseindia-in chartIntraday index="NIFTY BANK"
 ```
 
-### `stockSearch(q)`
-Search NSE-listed equities and ETFs by name or ticker symbol.
+### `stockSearch(q)` / `refRates(type)` / `currencyDerivativesStats()`
+`stockSearch`: find equities/ETFs by name or ticker. `refRates`: currency spot or g-sec yields (`currencyspotrates`/`interates`). `currencyDerivativesStats`: live CD segment volume/OI.
 
 ```bash
 api-anything call nseindia-in stockSearch q=RELIANCE
-api-anything call nseindia-in stockSearch q=Infosys
-```
-
-### `refRates(type)`
-NSE reference rates. `currencyspotrates` → USD/YEN/GBP/EUR vs INR. `interates` → g-sec bond yields.
-
-```bash
 api-anything call nseindia-in refRates type=currencyspotrates
-api-anything call nseindia-in refRates type=interates
-```
-
-### `currencyDerivativesStats()`
-Live CD segment stats — per instrument (USDINR/EURINR/GBPINR/JPYINR): volume, OI, turnover, segment totals.
-
-```bash
 api-anything call nseindia-in currencyDerivativesStats
 ```
 
-### `marketStatus()`
-Live Open/Closed/Pre-open state for all NSE segments (CM, Currency, Commodity, Debt, derivatives).
+### `marketStatus()` / `marketTurnover()` / `marketTurnoverDetail()`
+Market open/closed state, per-segment turnover, per-instrument live stats.
 
 ```bash
 api-anything call nseindia-in marketStatus
-```
-
-### `marketTurnover()`
-Yesterday's and today's turnover (volume, value, open interest) per NSE segment.
-
-```bash
 api-anything call nseindia-in marketTurnover
-```
-
-### `indexGainers()`
-Top gainers across NIFTY 50, BANK NIFTY, NIFTY NEXT 50, and all NSE securities today.
-
-```bash
-api-anything call nseindia-in indexGainers
-```
-
-### `derivativeGainers()`
-Top gainers among F&O-eligible stocks. Like `indexGainers` but adds `FOSec` (~200 futures stocks).
-
-```bash
-api-anything call nseindia-in derivativeGainers
-```
-
-### `oiSpurts(type)`
-Contracts with the largest change in open interest. Types: `spurtsinoi`, `fallinoi`, `pcr`, `loosening`.
-
-```bash
-api-anything call nseindia-in oiSpurts type=spurtsinoi
-```
-
-### `mostActiveSecurities(type)`
-Top 20 most-active NSE equities today by `volume` or `value`.
-
-```bash
-api-anything call nseindia-in mostActiveSecurities type=volume
-```
-
-### `priceBandHitters()`
-Stocks hitting upper or lower price circuit bands today (5%, 10%, 20%).
-
-```bash
-api-anything call nseindia-in priceBandHitters
-```
-
-### `fiidiiTrade()`
-Previous day's net buy/sell by FII/FPI and DII (values in crores).
-
-```bash
-api-anything call nseindia-in fiidiiTrade
-```
-
-### `etf()`
-Live prices and NAV for all NSE-listed ETFs with 30d/365d performance.
-
-```bash
-api-anything call nseindia-in etf
-```
-
-### `circulars()`
-Recent NSE circulars and notices with direct PDF/ZIP links.
-
-```bash
-api-anything call nseindia-in circulars
-```
-
-### `topCorpInfo(symbol)`
-Company snapshot: latest announcements, upcoming corporate actions, recent financial results, and board meetings.
-
-```bash
-api-anything call nseindia-in topCorpInfo symbol=RELIANCE
-```
-
-### `preOpenMarket(key)`
-Pre-open IEP, final quantity, and turnover per stock. `key=ALL` (~2000 stocks), `FO` (~200), `SME` (~40).
-
-```bash
-api-anything call nseindia-in preOpenMarket key=ALL
-```
-
-### `holidayMaster(type)`
-NSE trading or clearing holidays by segment (CM, FO, CD, etc.). `type=trading` or `type=clearing`.
-
-```bash
-api-anything call nseindia-in holidayMaster type=trading
-```
-
-### `equityMaster()`
-Master list of all NSE indices by category (Broad Market, Sectoral, Thematic, Strategy, Derivatives-eligible).
-
-```bash
-api-anything call nseindia-in equityMaster
-```
-
-### `indexNames()`
-Short-name ↔ full-name mapping for all 150 NSE indices.
-
-```bash
-api-anything call nseindia-in indexNames
-```
-
-### `commodityFutures()`
-Top 20 most-active NSE commodity futures and options by volume and value. Covers CRUDEOIL, GOLD, SILVER, NATURALGAS, COPPER, etc. Per contract: OHLC, LTP, pChange, OI, turnover, lot size, expiry.
-
-```bash
-api-anything call nseindia-in commodityFutures
-```
-
-### `marketTurnoverDetail()`
-Per-instrument live stats across all NSE segments. Volume, value, OI, orders, trades, plus previous session values.
-
-```bash
 api-anything call nseindia-in marketTurnoverDetail
 ```
 
-### `nsEvents()`
-NSE event calendar — listing ceremonies, conferences, training sessions. Fields: title, category, dates, slug URL, thumbnail.
+### `indexGainers()` / `derivativeGainers()` / `oiSpurts(type)` / `mostActiveSecurities(type)`
+Top gainers by index or F&O, OI changes (`spurtsinoi`/`fallinoi`/`pcr`/`loosening`), most active by `volume`/`value`.
 
 ```bash
+api-anything call nseindia-in indexGainers
+api-anything call nseindia-in oiSpurts type=spurtsinoi
+api-anything call nseindia-in mostActiveSecurities type=volume
+```
+
+### `priceBandHitters()` / `fiidiiTrade()` / `etf()` / `circulars()`
+Circuit hitters (5%/10%/20%), FII/DII net buy-sell, ETF live NAV, NSE circulars with PDF links.
+
+```bash
+api-anything call nseindia-in priceBandHitters
+api-anything call nseindia-in fiidiiTrade
+api-anything call nseindia-in etf
+api-anything call nseindia-in circulars
+```
+
+### `topCorpInfo(symbol)` / `preOpenMarket(key)` / `holidayMaster(type)` / `equityMaster()` / `indexNames()`
+Company snapshot; pre-open IEP (`ALL`/`FO`/`SME`); trading/clearing holidays; index master; name mapping.
+
+```bash
+api-anything call nseindia-in topCorpInfo symbol=RELIANCE
+api-anything call nseindia-in preOpenMarket key=ALL
+api-anything call nseindia-in holidayMaster type=trading
+```
+
+### `commodityFutures()` / `marketTurnoverDetail()` / `nsEvents()`
+Top commodity F&O by volume; per-instrument live stats; NSE listing ceremonies and events.
+
+```bash
+api-anything call nseindia-in commodityFutures
 api-anything call nseindia-in nsEvents
 ```
 
 ---
 
 ### `dailyReports(key)`
-Daily report files per segment. Returns `{CurrentDay,PreviousDay,FutureDay}`; each item: `displayName`, `tradingDate`, `fileSize`, download = `filePath+fileActlName`. Keys: `CM` equities, `INDEX` indices, `FO` F&O, `COM` commodity, `CD` currency, `WDM` debt, plus `SLBS`, `SME`, `NBF`, `TRI-PARTY`, `EGR`.
+Daily report files. Returns `{CurrentDay,PreviousDay,FutureDay}`; download = `filePath+fileActlName`. Keys: `CM`, `INDEX`, `FO`, `COM`, `CD`, `WDM`, `SLBS`, `SME`, `NBF`, `TRI-PARTY`, `EGR`.
 
 ```bash
-api-anything call nseindia-in dailyReports key=INDEX
 api-anything call nseindia-in dailyReports key=CM
 ```
 
@@ -231,20 +126,69 @@ api-anything call nseindia-in monthlyReports key=CM
 ---
 
 ### `corporatesFinancialResults(symbol, period, from_date, to_date)`
-Quarterly or annual result filings. Each item: `filingDate`, `period`, `fromDate`, `toDate`, `consolidated`, `audited`, `financialYear`, and `xbrl` (XBRL XML link on nsearchives).
+Result filings with XBRL links. `period`: `Quarterly`, `Annual`, `Half-Yearly`. `index`: `equities`, `sme`, `debt`, `reitsinvits`.
 
 ```bash
 api-anything call nseindia-in corporatesFinancialResults symbol=TCS period=Quarterly from_date=01-01-2025 to_date=31-10-2026
-api-anything call nseindia-in corporatesFinancialResults symbol=TCS period=Annual from_date=01-01-2020 to_date=31-10-2026
 ```
 
-`index`: `equities` (default), `sme`, `debt`, `reitsinvits`. `period`: `Quarterly`, `Annual`, `Half-Yearly`.
-
 ### `annualReportsXbrl(symbol)`
-Annual report XBRL — last ~4 years, standalone + consolidated. Each item: `fromYr`, `toYr`, `report_type`, `submission_type`, `fileName` (direct XML link).
+Annual report XBRL — ~4 years, standalone + consolidated. Each item: `fromYr`, `toYr`, `report_type`, `fileName` (XML link).
 
 ```bash
 api-anything call nseindia-in annualReportsXbrl symbol=TCS
+```
+
+---
+
+### `eventCalendar(from_date, to_date, fo_sec?)`
+Board meetings, results, AGMs, dividends, splits. Each item: `symbol`, `company`, `purpose`, `bm_desc`, `date`. Dates DD-MM-YYYY. `fo_sec=true` restricts to F&O stocks.
+
+```bash
+api-anything call nseindia-in eventCalendar from_date=01-10-2026 to_date=31-10-2026
+```
+
+### `corporateActions(symbol, from_date?, to_date?)`
+Dividend, bonus, split, rights history. Fields: `exDate`, `recDate`, `subject`, `faceVal`, `isin`.
+
+```bash
+api-anything call nseindia-in corporateActions symbol=TCS from_date=01-01-2024 to_date=28-10-2026
+```
+
+### `underlyingInfo()`
+All 225 F&O-eligible underlyings: 6 indices + 219 stocks, each with `symbol`, `underlying` name, `serialNumber`.
+
+```bash
+api-anything call nseindia-in underlyingInfo
+```
+
+### `stocksTraded()`
+Live snapshot of all 3200+ NSE equities — LTP, change, volume, market cap, advance/decline counts.
+
+```bash
+api-anything call nseindia-in stocksTraded
+```
+
+### `mostActiveUnderlying()`
+Top 223 F&O underlyings by volume today — futures/options volume, turnover, OI, spot price.
+
+```bash
+api-anything call nseindia-in mostActiveUnderlying
+```
+
+### `optionChainInfo(symbol)`
+Available expiry dates and strike prices for any F&O underlying.
+
+```bash
+api-anything call nseindia-in optionChainInfo symbol=NIFTY
+api-anything call nseindia-in optionChainInfo symbol=TCS
+```
+
+### `vixHistory(from_date, to_date)`
+Historical daily OHLC for India VIX. Fields: date, open/high/low/close, prev close, points and % change.
+
+```bash
+api-anything call nseindia-in vixHistory from_date=01-01-2026 to_date=28-10-2026
 ```
 
 ---
@@ -263,4 +207,10 @@ api-anything call nseindia-in annualReportsXbrl symbol=TCS
 | ETFs, circulars, pre-open, holidays | ✅ |
 | Daily + monthly report files | ✅ |
 | Financial results + XBRL XML | ✅ |
+| Corporate event calendar (646+ events) | ✅ |
+| Corporate actions (dividends, splits, bonuses) | ✅ |
+| F&O underlyings / option chain expiries+strikes | ✅ |
+| All stocks traded today (3200+) | ✅ |
+| Most active F&O underlyings | ✅ |
+| India VIX history | ✅ |
 | Option chain / inline financials | ❌ session or empty |
