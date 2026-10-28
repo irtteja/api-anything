@@ -122,7 +122,9 @@
       "slots": [
         {
           "param": "index",
-          "at": ["path:2"],
+          "at": [
+            "path:2"
+          ],
           "template": "EquityStockWatch{index}.json"
         }
       ],
@@ -194,7 +196,9 @@
       "slots": [
         {
           "param": "index",
-          "at": ["path:2"],
+          "at": [
+            "path:2"
+          ],
           "template": "Intraday{index}.json"
         }
       ],
@@ -258,7 +262,9 @@
       "slots": [
         {
           "param": "symbol",
-          "at": ["path:2"],
+          "at": [
+            "path:2"
+          ],
           "template": "CMIntraday{symbol}.json"
         }
       ],
@@ -306,7 +312,7 @@
     },
     {
       "name": "indexConstituents",
-      "description": "Current constituent list for any NSE index as CSV — company name, industry, symbol (NSE ticker), series, and ISIN code. Diff this daily to detect additions and removals. Works for ~100 indices.",
+      "description": "Current constituent list for any NSE index as CSV \u2014 company name, industry, symbol (NSE ticker), series, and ISIN code. Diff this daily to detect additions and removals. Works for ~100 indices.",
       "request": {
         "method": "GET",
         "url": "https://www.niftyindices.com/IndexConstituent/ind_nifty50list.csv",
@@ -319,7 +325,9 @@
       "slots": [
         {
           "param": "slug",
-          "at": ["path:1"],
+          "at": [
+            "path:1"
+          ],
           "template": "ind_{slug}list.csv"
         }
       ],
@@ -353,7 +361,7 @@
     },
     {
       "name": "indexMapping",
-      "description": "Full name mapping for all 260 NSE indices — trading short-name to long display name. Useful for resolving index names across systems.",
+      "description": "Full name mapping for all 260 NSE indices \u2014 trading short-name to long display name. Useful for resolving index names across systems.",
       "request": {
         "method": "GET",
         "url": "https://liveindexsa.niftyindices.com/assets/json/IndexMapping.json",
@@ -390,7 +398,7 @@
     },
     {
       "name": "tickerIndices",
-      "description": "32 key NSE indices in compact ticker format — index name, LTP, change, % change, OHLC, year high/low, and timestamp. Lighter than liveIndicesWatch.",
+      "description": "32 key NSE indices in compact ticker format \u2014 index name, LTP, change, % change, OHLC, year high/low, and timestamp. Lighter than liveIndicesWatch.",
       "request": {
         "method": "GET",
         "url": "https://liveindexsa.niftyindices.com/jsonfiles/TickerLiveIndicesWatch.json",
@@ -436,7 +444,7 @@
     },
     {
       "name": "pressReleases",
-      "description": "Recent NSE Indices press releases from niftyindices.com/media — each item has the date, title, and a direct PDF link. Constituent change announcements (additions/removals) appear here typically 4–6 weeks before effective date.",
+      "description": "Recent NSE Indices press releases from niftyindices.com/media \u2014 each item has the date, title, and a direct PDF link. Constituent change announcements (additions/removals) appear here typically 4\u20136 weeks before effective date.",
       "request": {
         "method": "GET",
         "url": "https://www.niftyindices.com/media",
@@ -473,6 +481,107 @@
       "minTier": 1,
       "learnedLoggedIn": false,
       "learnedAt": "2026-10-27T09:00:00.000Z"
+    },
+    {
+      "name": "indexHeatmap",
+      "description": "Live per-constituent data for an NSE index in heatmap format. Per stock: symbol, sector, LTP (ltP), change %, high, low, previousClose, cappingFactor, investableWeightFactor, index market-cap contribution (Indexmcap_today), and implied index level (NewIndexValue). Works for any index whose constituents are equity stocks.",
+      "request": {
+        "method": "GET",
+        "url": "https://liveindexsa.niftyindices.com/jsonfiles/HeatmapDetail/FinalHeatmapNIFTY%2050.json",
+        "headers": {
+          "accept": "*/*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [
+        {
+          "param": "index",
+          "at": [
+            "path:2"
+          ],
+          "template": "FinalHeatmap{index}.json"
+        }
+      ],
+      "volatile": [],
+      "trigger": {
+        "url": "https://liveindexsa.niftyindices.com/jsonfiles/HeatmapDetail/FinalHeatmap{index}.json"
+      },
+      "match": {
+        "method": "GET",
+        "host": "liveindexsa.niftyindices.com",
+        "path": "/jsonfiles/HeatmapDetail/*"
+      },
+      "response": {
+        "format": "json",
+        "shape": {
+          "": "array",
+          "[].symbol": "string",
+          "[].sector": "string",
+          "[].ltP": "number",
+          "[].per": "number",
+          "[].change": "number",
+          "[].high": "number",
+          "[].low": "number",
+          "[].previousClose": "number",
+          "[].cappingFactor": "number",
+          "[].investableWeightFactor": "number",
+          "[].Indexmcap_today": "number",
+          "[].NewIndexValue": "number",
+          "[].time": "string"
+        }
+      },
+      "params": [
+        {
+          "name": "index",
+          "type": "string",
+          "required": true,
+          "description": "NSE index name with spaces (e.g. NIFTY 50, NIFTY BANK)",
+          "example": "NIFTY 50"
+        }
+      ],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-28T00:00:00.000Z"
+    },
+    {
+      "name": "indexCatalog",
+      "description": "Full catalog of all 251 NSE indices with display title, category (Broad Market, Sectoral, Thematic, Fixed Income, G-sec, Hybrid, Money Market, SDL, Strategy, Target Maturity), trading name, and short-type code. Covers fixed income and debt indices not in indexMapping.",
+      "request": {
+        "method": "GET",
+        "url": "https://liveindexsa.niftyindices.com/jsonfiles/IndexType.json",
+        "headers": {
+          "accept": "*/*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36"
+        }
+      },
+      "slots": [],
+      "volatile": [],
+      "trigger": {
+        "url": "https://liveindexsa.niftyindices.com/jsonfiles/IndexType.json"
+      },
+      "match": {
+        "method": "GET",
+        "host": "liveindexsa.niftyindices.com",
+        "path": "/jsonfiles/IndexType.json"
+      },
+      "response": {
+        "format": "json",
+        "shape": {
+          "": "array",
+          "[].Title": "string",
+          "[].IndexType": "string",
+          "[].IndexTradingname": "string",
+          "[].IndextypeShort": "string"
+        }
+      },
+      "params": [],
+      "readOnly": true,
+      "minTier": 1,
+      "learnedLoggedIn": false,
+      "learnedAt": "2026-10-28T00:00:00.000Z"
     }
   ]
 }

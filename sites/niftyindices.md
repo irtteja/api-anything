@@ -92,6 +92,22 @@ before the effective rebalancing date.**
 api-anything call niftyindices pressReleases
 ```
 
+### `indexHeatmap(index)`
+Live per-constituent data for an NSE index in heatmap format. Per stock: `symbol`, `sector`, `ltP`, `per` (% change), `high`, `low`, `previousClose`, `cappingFactor`, `investableWeightFactor`, `Indexmcap_today` (market-cap contribution), and `NewIndexValue` (implied index level).
+
+```bash
+api-anything call niftyindices indexHeatmap --index "NIFTY 50"
+api-anything call niftyindices indexHeatmap --index "NIFTY BANK"
+api-anything call niftyindices indexHeatmap --index "NIFTY IT"
+```
+
+### `indexCatalog()`
+Full catalog of all 251 NSE indices — display title, category, trading name, and short-type code. Covers fixed income, G-sec, hybrid, money market, SDL, and target maturity indices not in `indexMapping`.
+
+```bash
+api-anything call niftyindices indexCatalog
+```
+
 ---
 
 ## Tracking constituent changes
